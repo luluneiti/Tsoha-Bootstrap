@@ -2,9 +2,10 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](https://www.cs.helsinki.fi)
-* [Linkki dokumentaatiooni](https://www.github.com)
+* Linkki sovellukseen: ulgr.users.cs.helsinki.fi/tkharj
+* Dokumentaatio: repositorion doc-kansio (dokumentaatio.pdf)
 
-## Työn aihe
+## Kennelkerho
 
-Laita tähän aihekuvaus tai [linkki valmiiseen aiheeseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pokemon-kanta.html) 
+Alkuperäinen: aihekuvaus http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Kennelkerho.html 
+Rajattu versio: dokumentaatio.pdf
