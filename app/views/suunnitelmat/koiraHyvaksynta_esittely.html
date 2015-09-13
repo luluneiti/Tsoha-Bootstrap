@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>BILLIONBEAT SPACE COWBOY</h1>
+  <!-- Painikkeet tähän -->
+  <p>
+    <button class="btn btn-danger">Hväksy</button> 
+     <button class="btn btn-danger">Hylkää</button>
+  </p>
+  <!-- Tiedot tulee listana tähän -->
+
+<h2> Perustiedot</h2>
+  <ul>
+    <li><strong>Rekisterinumero:</strong> 123456789</li>
+    <li><strong>Rotu:</strong> sileäkarvainen collie</li>
+    <li><strong>Syntymäaika:</strong> 15.12.2010</li>
+    <li><strong>Rekisteröintipäivä</strong> 24.01.2011</li>
+    <li><strong>Sukupuoli:</strong> uros</li>
+    <li><strong>Väri:</strong> soopeli</li>
+    <li><strong>Kasvattaja:</strong><a href="#"> BILLIONBEAT</a></li>
+  </ul>
+  
+<h2>Omistaja</h2>
+  <ul>
+    <li>Matti Meikäläinen, Helsinki</li>
+    <li>Maija Meikäläinen, Espoo</li>
+  </ul>
+
+<h2>Sukulaisuussuhteet</h2>
+  <ul>
+    <li><strong>Emä:</strong><a href="#"> Supertyttö</a></li>
+    <li><strong>Isä:</strong><a href="#"> Superpoika</a></li>
+    <li><strong>Sisarus:</strong><a href="#"> BILLIONBEAT 2</a></li>
+    <li><strong>Sisarus:</strong><a href="#"> BILLIONBEAT 3</li>
+    <li><strong>Sisarus:</strong><a href="#"> BILLIONBEAT 4</a></li>
+  </ul>
+
+<h2>Terveystulokset</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+
+      <tr>
+	<th>Päiväys</th>
+	<th>Kohde</th>
+	<th>Tulos</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Listataan  terveystulokset tähän -->
+      <tr>
+        <td>14.2.2012</td>
+	<td>kyynärnive</td>
+	<td>0/0</td>
+      </tr>
+ 
+ <tr>
+        <td>10.2.2012</td>
+	<td>lonkkanive</td>
+	<td>A/A</td>
+      </tr>
+ </tbody>
+</table>
+
+<h2>Koe- ja näyttelytulokset</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+
+      <tr>
+	<th>Tyyppi</th>
+	<th>Alatyyppi</th>
+	<th>Tulos</th>
+	<th>Paikka</th>
+	<th>Päivämäärä</th>
+	<th>Tuomari</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Listataan  koe- ja näyttelytulokset tähän -->
+      <tr>
+        <td>Koe</td>
+	<td>LTE</td>
+	<td>Espoo</td>
+	<td>12.1.2012</td>
+	<td>M. Meikäläinen</td>
+      </tr>
+ 
+ <tr>
+        <td>Näyttely</td>
+	<td>Erikoisnäyttely</td>
+	<td>AVK1</td>
+	<td>Sipoo</td>
+	<td>12.1.2012</td>
+	<td>M. Meikäläinen</td>
+      </tr>
+ </tbody>
+</table>
+
+  
+
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Kirjaudu sis‰‰n</h1>
+
+  <!-- Kaikki lomakkeen elementit form-tagin sis‰‰n -->
+  <form>
+    <!-- Tekstikentt‰ k‰ytt‰j‰tunnukselle -->
+    <div class="form-group">
+      <label>K‰ytt‰j‰tunnus</label>
+      <input class="form-control" type="text">
+    </div>
+
+    <!-- Salasanakentt‰ salasanalle -->
+    <div class="form-group">
+      <label>Salasana</label>
+      <input class="form-control" type="password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kirjaudu sis‰‰n</button>
+  </form>
+{% endblock %}

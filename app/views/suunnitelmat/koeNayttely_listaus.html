@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Koordinaattorin Tuula kokeet ja n‰yttelyn</h1>
+
+  <p>
+    <a href="#" class="btn btn-success">Lis‰‰ koe tai nayttely</a>
+  </p>
+
+
+
+
+  <table class="table table-striped table-bordered">
+    <thead>
+
+      <tr>
+	<th>Tapahtumatunnus</th>
+	<th>Tapahtumatyyppi</th>
+	<th>Nimi</th>
+	<th>P‰iv‰m‰‰r‰</th>
+	<th>Paikkakunta</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Listataan koira t‰h‰n -->
+      <tr>
+	 <td>1544545</td>
+        <td>N‰yttely</td>
+	<td>Ryhm‰n‰yttely</td>
+	<td>13.12.2011</td>
+	<td>Espoo</td>
+        <th><a class="btn btn-default btn-sm" href="#">Muokkaa</a></th>
+	<th><a class="btn btn-default btn-sm" href="#">Lis‰‰ tulos</a></th>
+      </tr>
+
+	 <tr>
+	 <td>11544545</td>
+        <td>Koe</td>
+	<td>Luonnetesti</td>
+	<td>1.8.2015</td>
+	<td>Sipoo</td>
+        <th><a class="btn btn-default btn-sm" href="#">Muokkaa</a></th>
+	<th><a class="btn btn-default btn-sm" href="#">Lis‰‰ tulos</a></th>
+      </tr>
+
+    </tbody>
+  </table>
+{% endblock %}
