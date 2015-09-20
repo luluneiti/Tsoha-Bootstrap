@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Lis‰tt‰v‰n koiran tiedot</h1>
+
+  <form method="post" action="{{base_path}}/koira">
+   
+    <div class="form-group">
+      <label>Nimi</label>
+      <input name="nimi" class="form-control" type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Rotu</label>
+	<select class="form-control" name="rotu">
+    		{% for rotu in rodut %}
+      		<option value="{{rotu.rotutunnus}}">{{rotu.nimi}}</option>
+    		{% endfor %}
+  	</select>
+    </div>
+
+    <div class="form-group">
+      <label>Syntym‰p‰iv‰</label>
+      <input name="syntymapv" class="form-control" type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Sukupuoli</label>
+      	 <select class="form-control" name="sukupuoli">
+    		<option value="N">Narttu</option>
+    		<option value="U">Uros</option>
+  	</select>
+
+    </div>
+
+    <div class="form-group">
+      <label>Kasvattaja</label>
+        <select class="form-control" name="kasvattaja">
+    		{% for kasvattaja in kasvattajat %}
+      		<option value="{{kasvattaja.kasvattajatunnus}}">{{kasvattaja.nimi}}</option>
+    		{% endfor %}
+  	</select>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Lis‰‰</button>
+    </div>
+
+  </form>
+
+{% endblock %}

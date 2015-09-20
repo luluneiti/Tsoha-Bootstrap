@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+  <h1>{{koira.nimi}}</h1>
+
+  <!-- Painikkeet tähän -->
+  <p>
+    <a class="btn btn-danger" href="{{base_path}}/koira/{{koira.rekisterinumero}}/poista">Poista</a>
+    <a class="btn btn-default btn-sm" href="{{base_path}}/koira/{{koira.rekisterinumero}}/muokkaa">Muokkaa</a>  
+  </p>
+
+  <!-- Tiedot tulee listana tähän -->
+<h2> Perustiedot</h2>
+  <ul>
+    <li><strong>Rekisterinumero:</strong> {{koira.rekisterinumero}}</li>
+    <li><strong>Rotu:</strong> {{koira.rotu}}</li>
+    <li><strong>Syntymäpäivä:</strong> {{koira.syntymapv}}</li>
+    <li><strong>Rekisteröintipäivä</strong> {{koira.rekisterointipv}}</li>
+    <li><strong>Sukupuoli:</strong> {{koira.sukupuoli}}</li>
+     <li><strong>Kasvattaja:</strong><a href="#"> {{koira.kasvattaja}}</a></li>
+  </ul>
+  
+
+
+
+
+<h2>Omistaja</h2>
+  <ul>
+ {% for suhde in suhteet %}
+    <li>{{suhde.omnimi}}</li>
+ {% endfor %}
+  </ul>
+
+<h2>Sukulaisuussuhteet</h2>
+  <ul>
+ {% for suk in suku %}
+    <li>{{suk.vnimi}}, {{suk.suhdetyyppi}}</li>
+ {% endfor %}
+ </ul>
+
+<h2>Terveystulokset</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+
+      <tr>
+	<th>Päiväys</th>
+	<th>Kohde</th>
+	<th>Tulos</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Listataan  terveystulokset tähän -->
+      <tr>
+        <td>14.2.2012</td>
+	<td>kyynärnive</td>
+	<td>0/0</td>
+      </tr>
+ 
+ <tr>
+        <td>10.2.2012</td>
+	<td>lonkkanive</td>
+	<td>A/A</td>
+      </tr>
+ </tbody>
+</table>
+
+<h2>Koe- ja näyttelytulokset</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+
+      <tr>
+	<th>Tyyppi</th>
+	<th>Alatyyppi</th>
+	<th>Tulos</th>
+	<th>Lisätieto</th>
+	<th>Paikka</th>
+	<th>Päivämäärä</th>
+	<th>Tuomari</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Listataan  koe- ja näyttelytulokset tähän -->
+      <tr>
+        <td>Koe</td>
+	<td>Luonnetesti</td>
+	<td>LTEP</td>
+	<td>+140</td>
+	<td>Espoo</td>
+	<td>12.1.2012</td>
+	<td>M. Meikäläinen</td>
+      </tr>
+ 
+ <tr>
+        <td>Näyttely</td>
+	<td>Erikoisnäyttely</td>
+	<td>AVK1</td>
+	<td>AVO-EH</td>
+	<td>Sipoo</td>
+	<td>12.1.2012</td>
+	<td>M. Meikäläinen</td>
+      </tr>
+ </tbody>
+</table>
+
+
+
+{% endblock %}

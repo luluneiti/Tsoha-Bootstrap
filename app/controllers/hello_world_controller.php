@@ -1,6 +1,6 @@
 ﻿<?php
-
-  class HelloWorldController extends BaseController{
+   require 'app/models/koira.php';
+   class HelloWorldController extends BaseController{
 
     public static function index(){
       // make-metodi renderöi app/views-kansiossa sijaitsevia tiedostoja
@@ -11,7 +11,17 @@
     public static function sandbox(){
       // Testaa koodiasi täällä
       //echo 'Hello World!';
-      View::make('helloworld.html');    
+      //View::make('helloworld.html');   
+
+	
+       $koira1 = Koira::etsiTunnuksella(1);
+       $koira2 = Koira::etsiNimella('Hieno koira'); //oliko pienellä?
+       $koirat = Koira::kaikki();
+       // Kint-luokan dump-metodi tulostaa muuttujan arvon
+       Kint::dump($koira1);
+       Kint::dump($koira2);
+       Kint::dump($koirat);
+        
     }
 
     public static function kirjaudu(){

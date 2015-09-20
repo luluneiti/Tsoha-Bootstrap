@@ -1,59 +1,69 @@
 <?php
 
-  $routes->get('/', function() {
-    HelloWorldController::index();
-  });
-
-  $routes->get('/hiekkalaatikko', function() {
+$routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
-  });
+});
 
 
-  $routes->get('/kirjaudu', function() {
+$routes->get('/kirjaudu', function() {
     HelloWorldController::kirjaudu();
-  });
+});
+
+$routes->get('/', function() {
+    KoiraController::listaaKaikki();
+});
+
+$routes->get('/koira', function() {
+    KoiraController::listaaKaikki();
+});
+
+$routes->post('/koira', function() {
+    KoiraController::lisaa();
+});
+
+$routes->get('/koira/uusi', function() {
+    KoiraController::naytaLisaa();
+});
+
+//$routes->post('/koira/:rekisterinumero', function() {
+  //  KoiraController::tallenna2($rekisterinumero);
+//});
+
+//$routes->get('/koira/:rekisterinumero/muokkaa', function() {
+  //  KoiraController::naytaMuokkaa();
+//});
 
 
-  $routes->get('/koira', function() {
-    HelloWorldController::koira_listaus();
-  });
+$routes->get('/koira/:rekisterinumero', function($rekisterinumero) {
+    KoiraController::esittely($rekisterinumero);
+});
 
-  $routes->get('/koira/1', function() {
-    HelloWorldController::koira_esittely();
-  });
 
-  $routes->get('/koiraluonti', function() {
-    HelloWorldController::koira_luonti();
-  });
 
-  $routes->get('/koiramuokkaus', function() {
-    HelloWorldController::koira_muokkaus();
-  });
-
-  $routes->get('/koirahyvaksynta', function() {
+$routes->get('/koirahyvaksynta', function() {
     HelloWorldController::koiraHyvaksynta_listaus();
-  });
+});
 
-  $routes->get('/koirahyvaksynta/1', function() {
+$routes->get('/koirahyvaksynta/1', function() {
     HelloWorldController::koiraHyvaksynta_esittely();
-  });
+});
 
-  $routes->get('/koenayttely', function() {
+$routes->get('/koenayttely', function() {
     HelloWorldController::koeNayttely_listaus();
-  });
+});
 
-  $routes->get('/koenayttelyluonti', function() {
+$routes->get('/koenayttelyluonti', function() {
     HelloWorldController::koeNayttely_luonti();
-  });
+});
 
-   $routes->get('/koenayttelymuokkaus', function() {
+$routes->get('/koenayttelymuokkaus', function() {
     HelloWorldController::koeNayttely_muokkaus();
-  });
+});
 
-  $routes->get('/koenayttelytulosluonti', function() {
+$routes->get('/koenayttelytulosluonti', function() {
     HelloWorldController::koeNayttelyTulos_luonti();
-  });
+});
 
-   $routes->get('/koenayttelytulosmuokkaus', function() {
+$routes->get('/koenayttelytulosmuokkaus', function() {
     HelloWorldController::koeNayttelyTulos_muokkaus();
-  });
+});
