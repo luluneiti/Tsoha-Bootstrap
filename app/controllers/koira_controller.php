@@ -4,6 +4,7 @@ require 'app/models/kasvattaja.php';
 require 'app/models/rotu.php';
 require 'app/models/omistajasuhde.php';
 require 'app/models/sukulaissuhde.php';
+require 'app/models/koeNayttelyTulos.php';
 class KoiraController extends BaseController {
 
     public static function listaaKaikki() { //hae kaikki koirat
@@ -17,12 +18,14 @@ class KoiraController extends BaseController {
 
 	$suhteet = Omistajasuhde::haeSuhteet($rekisterinumero);
 	$suku = Sukulaissuhde::haeVanhemmat($rekisterinumero);
+	$tulokset = KoeNayttelyTulos::haeTulokset($rekisterinumero);
+
 
         $koira = Koira::haeTunnuksella($rekisterinumero);
 	Kint::dump($suhteet);
 	Kint::dump($suku);
 	Kint::dump($koira);
-        View::make('koira_esittely.html', array('koira' => $koira, 'suhteet' =>  $suhteet,  'suku' =>  $suku));
+        View::make('koira_esittely.html', array('koira' => $koira, 'suhteet' =>  $suhteet,  'suku' =>  $suku,  'tulokset' =>  $tulokset));
     }
 
     public static function naytaLisaa() { //nayta lisayslomake

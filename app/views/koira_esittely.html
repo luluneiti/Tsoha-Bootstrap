@@ -85,26 +85,20 @@
     </thead>
 
     <tbody>
+
+     {% for tulos in tulokset %}
+
       <!-- Listataan  koe- ja näyttelytulokset tähän -->
       <tr>
-        <td>Koe</td>
-	<td>Luonnetesti</td>
-	<td>LTEP</td>
-	<td>+140</td>
-	<td>Espoo</td>
-	<td>12.1.2012</td>
+        <td>{{tulos.tyyppi}}</td>
+	<td>{{tulos.alityyppi}}</td>
+	<td>{{tulos.tulos}}</td>
+	<td>{{tulos.tuloslisatieto}}</td>
+	<td>{{tulos.paikkakunta}}</td>
+	<td>{{tulos.tulospv}}</td>
 	<td>M. Meikäläinen</td>
       </tr>
- 
- <tr>
-        <td>Näyttely</td>
-	<td>Erikoisnäyttely</td>
-	<td>AVK1</td>
-	<td>AVO-EH</td>
-	<td>Sipoo</td>
-	<td>12.1.2012</td>
-	<td>M. Meikäläinen</td>
-      </tr>
+ {% endfor %}
  </tbody>
 </table>
 
