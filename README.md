@@ -12,7 +12,7 @@ Kennelkerho
 
 Linkit näkymiin:
 * http://ulgr.users.cs.helsinki.fi/tkharj/kirjaudu
-* http://ulgr.users.cs.helsinki.fi/tkharj/koira **siirry tähän osoitteeseen ja pääset lisäykseen klikkaamalla lisää koira -painiketta tai esittelyyn klikkaamalla koiran nimi-linkkiä**
+* http://ulgr.users.cs.helsinki.fi/tkharj/koira **siirry tähän osoitteeseen ja pääset lisäykseen klikkaamalla lisää koira -painiketta tai esittelyyn klikkaamalla koiran nimi-linkkiä
 * http://ulgr.users.cs.helsinki.fi/tkharj/koira/1
 * http://ulgr.users.cs.helsinki.fi/tkharj/koiraluonti
 * http://ulgr.users.cs.helsinki.fi/tkharj/koiramuokkaus
