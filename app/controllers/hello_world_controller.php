@@ -9,18 +9,20 @@
     }
 
     public static function sandbox(){
-      // Testaa koodiasi täällä
-      //echo 'Hello World!';
-      //View::make('helloworld.html');   
 
-	
-       $koira1 = Koira::etsiTunnuksella(1);
-       $koira2 = Koira::etsiNimella('Hieno koira'); //oliko pienellä?
-       $koirat = Koira::kaikki();
-       // Kint-luokan dump-metodi tulostaa muuttujan arvon
-       Kint::dump($koira1);
-       Kint::dump($koira2);
-       Kint::dump($koirat);
+     	$doom = new Koira(array(
+            'rotu' => 1, 
+            'kasvattaja' => 1,
+            'nimi' => 'joo',
+            'syntymapv' => '88.99.2015',
+            'sukupuoli' => 'N',
+            'rekisterointipv' => '2015-09-18', 
+            'tila' => 'kesken'
+        ));
+
+  	$errors = $doom->errors();
+
+  	Kint::dump($errors);
         
     }
 

@@ -6,7 +6,11 @@ $routes->get('/hiekkalaatikko', function() {
 
 
 $routes->get('/kirjaudu', function() {
-    HelloWorldController::kirjaudu();
+    KayttajaController::naytaKirjaudu();
+});
+
+$routes->post('/kirjaudu', function() {
+    KayttajaController::kirjaudu();
 });
 
 $routes->get('/', function() {
@@ -25,14 +29,18 @@ $routes->get('/koira/uusi', function() {
     KoiraController::naytaLisaa();
 });
 
-//$routes->post('/koira/:rekisterinumero', function() {
-  //  KoiraController::tallenna2($rekisterinumero);
-//});
 
-//$routes->get('/koira/:rekisterinumero/muokkaa', function() {
-  //  KoiraController::naytaMuokkaa();
-//});
+$routes->get('/koira/:rekisterinumero/muokkaa', function($rekisterinumero) {
+   KoiraController::naytaMuuta($rekisterinumero);
+});
 
+$routes->post('/koira/:rekisterinumero/muokkaa', function($rekisterinumero) {
+   KoiraController::paivitys($rekisterinumero);
+});
+
+$routes->post('/koira/:rekisterinumero/poista', function($rekisterinumero){
+  KoiraController::poisto($rekisterinumero);
+});
 
 $routes->get('/koira/:rekisterinumero', function($rekisterinumero) {
     KoiraController::esittely($rekisterinumero);

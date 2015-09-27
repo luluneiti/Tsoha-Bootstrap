@@ -2,13 +2,18 @@
 {% block content %}
 
 
+<div class="alert alert-success">
+  {{viesti}}
+</div>
 
   <h1>{{koira.nimi}}</h1>
 
   <!-- Painikkeet tähän -->
   <p>
-    <a class="btn btn-danger" href="{{base_path}}/koira/{{koira.rekisterinumero}}/poista">Poista</a>
-    <a class="btn btn-default btn-sm" href="{{base_path}}/koira/{{koira.rekisterinumero}}/muokkaa">Muokkaa</a>  
+    <form method="post" action="{{base_path}}/koira/{{koira.rekisterinumero}}/poista" style="display: inline-block;">
+  <button type="submit" class="btn btn-danger">Poista</button>
+</form>
+        <a class="btn btn-default btn-sm" href="{{base_path}}/koira/{{koira.rekisterinumero}}/muokkaa">Muokkaa</a>  
   </p>
 
   <!-- Tiedot tulee listana tähän -->

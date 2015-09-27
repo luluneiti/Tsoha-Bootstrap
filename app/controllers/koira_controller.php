@@ -1,15 +1,9 @@
 <?php
-require 'app/models/koira.php';
-require 'app/models/kasvattaja.php';
-require 'app/models/rotu.php';
-require 'app/models/omistajasuhde.php';
-require 'app/models/sukulaissuhde.php';
-require 'app/models/koeNayttelyTulos.php';
+
 class KoiraController extends BaseController {
 
     public static function listaaKaikki() { //hae kaikki koirat
         $koirat = Koira::haekaikki();
-	Kint::dump($koirat);
         View::make('koira_listaus.html', array('koirat' => $koirat));
     }
 
@@ -19,12 +13,8 @@ class KoiraController extends BaseController {
 	$suhteet = Omistajasuhde::haeSuhteet($rekisterinumero);
 	$suku = Sukulaissuhde::haeVanhemmat($rekisterinumero);
 	$tulokset = KoeNayttelyTulos::haeTulokset($rekisterinumero);
-
-
         $koira = Koira::haeTunnuksella($rekisterinumero);
-	Kint::dump($suhteet);
-	Kint::dump($suku);
-	Kint::dump($koira);
+
         View::make('koira_esittely.html', array('koira' => $koira, 'suhteet' =>  $suhteet,  'suku' =>  $suku,  'tulokset' =>  $tulokset));
     }
 
@@ -32,9 +22,6 @@ class KoiraController extends BaseController {
 
 	$rodut = Rotu::haekaikki();
 	$kasvattajat = Kasvattaja::haekaikki();
-
-	 Kint::dump($rodut);
-    	 Kint::dump($kasvattajat);
 	//$spuolet = Koira::haeSukupuolet(); 
 
         View::make('koira_luonti.html', array('rodut' => $rodut, 'kasvattajat' => $kasvattajat) ); 
@@ -54,12 +41,72 @@ class KoiraController extends BaseController {
             'rekisterointipv' => '2015-09-18', 
             'tila' => 'kesken'
         ));
-
-        Kint::dump($params);
-
         $koira->tallenna();
-
-        //Redirect::to('/koira/' . $koira->rekisterinumero, array('message' => 'Koira on lisätty.'));
+        Redirect::to('/koira/' . $koira->rekisterinumero, array('viesti' => 'Koira on lisätty.'));
     }
+
+    public static function naytaMuuta($rekisterinumero){ //nayta editointilomake
+
+    	$koira = Koira::haeTunnuksella($rekisterinumero);
+	$rodut = Rotu::haekaikki();
+	$kasvattajat = Kasvattaja::haekaikki();
+
+    	View::make('koira_muokkaus.html', array('koira' => $koira, 'rodut' => $rodut, 'kasvattajat' => $kasvattajat));
+    }
+
+
+    public static function paivitys($rekisterinumero){ //koiran editointi
+    	$params = $_POST;
+
+	//$rotu= Rotu::haeNimella($params['rotu']);
+
+    	$attribuutit = array(
+	    'rekisterinumero' => $rekisterinumero,
+	    'rotu' => $params['rotu'],
+            'kasvattaja' => $params['kasvattaja'],
+            'nimi' => $params['nimi'],
+            'syntymapv' => $params['syntymapv'],
+            'sukupuoli' => $params['sukupuoli']
+    	);
+    
+	$koira = new Koira($attribuutit);
+	
+    	//$virheet = $koira->virheet();
+
+    	//if(count($virheet) > 0){
+      		//View::make('koira/koira_muokkaus.html', array('errors' => $virheet, 'attribuutit' => $attribuutit));
+    	//}else{
+
+      	$koira->paivita();
+
+      	Redirect::to('/koira/' . $koira->rekisterinumero, array('viesti' => 'Koiran tietoja on muokattu onnistuneesti!'));
+    //}
+  }
+
+
+  public static function poisto($rekisterinumero){ //koiran poisto
+    
+    $koira = new Koira(array('rekisterinumero' => $rekisterinumero));
+
+    $suhteet = Omistajasuhde::haeSuhteet($rekisterinumero);
+    $suku = Sukulaissuhde::haeVanhemmat($rekisterinumero);
+    $tulokset = KoeNayttelyTulos::haeTulokset($rekisterinumero);
+
+    if($suhteet) { 
+	Omistajasuhde::poista($rekisterinumero); 
+    }
+    if($suku) { 
+	Sukulaissuhde::poista($rekisterinumero); 
+    }
+    if($tulokset) { 
+	KoeNayttelyTulos::poista($rekisterinumero); 
+    }
+
+    Kint::dump($koira);
+
+    $koira->poista();
+
+    Redirect::to('/koira', array('viesti' => 'Koira on poistettu onnistuneesti!'));
+  }
 
 }

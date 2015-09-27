@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+
+
+<div class="alert alert-success">
+  {{viesti}}
+</div>
   <h1>Omistajan Heidi koirat</h1>
+
+{% if user_logged_in %}
+    <h1>Omistajan {{user_logged_in.nimi}} koirat</h1>
+  {% endif %}
 
   <p>
     <a href="{{base_path}}/koira/uusi" class="btn btn-success">Lis&auml;&auml; koira</a>

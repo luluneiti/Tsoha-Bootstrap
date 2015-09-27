@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Kirjaudu sis&auml;&auml;n</h1>
+
+  <form method="post" action="{{base_path}}/kirjaudu">
+    <div class="form-group">
+      <label>K&auml;ytt&auml;j&auml;tunnus</label>
+      <input class="form-control" name="kayttajatunnus" value="{{kayttajatunnus}}" type="text">
+    </div>
+
+    <!-- Salasanakenttä salasanalle -->
+    <div class="form-group">
+      <label>Salasana</label>
+      <input class="form-control" name="salasana" type="password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kirjaudu sis&auml;&auml;n</button>
+  </form>
+{% endblock %}
