@@ -3,6 +3,7 @@
 Yleisiä linkkejä:
 
 * Linkki sovellukseen: ulgr.users.cs.helsinki.fi/tkharj
+* Käytä esim. "testiasiakas1@hotmail.com" käyttäjätunnusta ja “salasana” salasanaa.
 * Dokumentaatio: https://github.com/luluneiti/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf
 
 Kennelkerho
