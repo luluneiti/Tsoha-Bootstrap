@@ -2,7 +2,7 @@
 
 class Rotu extends BaseModel {
 
-    public $rotutunnus, $nimi, $kuvaus;
+    public $rotutunnus, $rnimi, $kuvaus;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -21,7 +21,7 @@ class Rotu extends BaseModel {
 
             $rodut[] = new Rotu(array(
                 'rotutunnus' => $rivi['rotutunnus'],
-                'nimi' => $rivi['nimi'],
+                'rnimi' => $rivi['nimi'],
 		'kuvaus' => $rivi['kuvaus']
                
             ));
@@ -38,7 +38,7 @@ class Rotu extends BaseModel {
         if ($rivi) {
              $rotu[] = new Rotu(array(
                 'rotutunnus' => $rivi['rotutunnus'],
-                'nimi' => $rivi['nimi'],
+                'rnimi' => $rivi['nimi'],
 		'kuvaus' => $rivi['kuvaus']
                
             ));

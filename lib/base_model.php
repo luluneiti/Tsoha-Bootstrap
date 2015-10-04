@@ -16,53 +16,62 @@
     }
 
     public function errors(){ 
-     
-      $kvirheet = array();
+	
+      $virheet = array();
 
       foreach($this->validoitavat as $validoitava){
-		$metodin_nimi = $validoitava;
-		echo $metodin_nimi;
-		//$virheet=$metodin_nimi; 
-		$virheet=$this->{$metodin_nimi};  
-		$kvirheet = array_merge($kvirheet, $virheet);  
+				
+		$vvirheet=array($this->{$validoitava}());
+		$virheet = array_merge($virheet, $vvirheet); 
+		
+
       }
 
-      return $kvirheet;
+      Kint::dump($virheet);
+      return $virheet;
     }
 
-    public function tarkistaMjononPituus($mjono, $pituus) { //$kentta, 
+    public function tarkistaMjononPituus($mjono, $kentta, $pituus) { 
 
-	echo 'Hello World! 1';
+	$vvirheet = array();
 
-	$virheet = array();
-	  	if($mjono == '' || $mjono == null){
-    		$virheet[] = 'Tieto ei saa olla tyhjä!';
+	if($this->$mjono == '' || $this->$mjono == null){
+		 $vvirheet[] = $kentta. ' tieto ei saa olla tyhjä!'; // 
   	}
-  	if(strlen($this->mjono) < $pituus){
-    		$virheet[] = 'Kentän pituuden tulee olla vähintään ' . $pituus;
+  	if(strlen($this->$mjono) < $pituus){
+    		 $vvirheet[] = $kentta. ' kentän pituuden tulee olla vähintään ' . $pituus;//
   	}
-	
-  	return $virheet;
+
+	Kint::dump($vvirheet);
+	return $vvirheet;
 
    }
 
+   public function tarkistaNumero($mjono, $kentta) {
 
-   public function tarkistaPaivamaara($pvm, $kentta) { //huom: pitää tarkistaa myös että pp, kk, vv on numeroita ja sille oma metodi
-	
-	echo 'Hello World! 2';
+	$vvirheet = array();
 
-	$kopio = explode('.', $pvm);
-	$virheet = array();
-	$virheet[]='täällä oltiin 2';
+	if((bool)is_numeric($mjono)==false){
+    		$vvirheet[] = $kentta. ' ei ole numeerinen!';
+  	}  
 
-  	
-	if((bool)checkdate($kopio[1], $kopio[0], $kopio[2])==false){
-    		$virheet[] = $kentta +' päivämäärä ei ole validi!';
+	Kint::dump($vvirheet);
+	return $vvirheet;
+
+   }
+
+   public function tarkistaPaivamaara($pvm, $kentta) { 
+
+	$vvirheet = array();
+
+  	if(!preg_match("/[0-9]{2}.[0-9]{2}.[0-9]{4}/", $this->$pvm)) {
+    		$vvirheet[] = $kentta. ' ei ole validi!';
   	}  	
+	//tarkista ettei ole tulevaisuudessa
 
-  	return $virheet;
-
+	Kint::dump($vvirheet);
+	return $vvirheet;
 
    }
 
-  }
+ }

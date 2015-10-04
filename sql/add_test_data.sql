@@ -3,6 +3,8 @@ INSERT INTO Kayttaja (rooli, alkupv, luontipv, salasana, kayttajatunnus, osoite,
 INSERT INTO Kayttaja (rooli, alkupv, luontipv, salasana, kayttajatunnus, osoite, nimi) VALUES ('kasvattaja', '2013-11-11', '2013-11-11', 'salasana', 'testiasiakas3@hotmail.com', 'lahiosoite, 00500 Helsinki', 'testi kasv1');
 INSERT INTO Kayttaja (rooli, alkupv, luontipv, salasana, kayttajatunnus, osoite, nimi) VALUES ('kkirjaaja', '2014-11-11', '2014-11-11', 'salasana', 'testiasiakas4@hotmail.com', 'lahiosoite, 00500 Helsinki', 'testi koe nayttely kirjaaja');
 INSERT INTO Kayttaja (rooli, alkupv, luontipv, salasana, kayttajatunnus, osoite, nimi) VALUES ('kasvattaja', '2014-11-11', '2015-11-11', 'salasana', 'testiasiakas5@hotmail.com', 'lahiosoite, 00500 Helsinki', 'testi kasv2');
+INSERT INTO Kayttaja (rooli, alkupv, luontipv, salasana, kayttajatunnus, osoite, nimi) VALUES ('hoitaja', '2014-11-11', '2015-11-11', 'salasana', 'testiasiakas6@hotmail.com', 'lahiosoite, 00500 Helsinki', 'testi hoitaja');
+
 
 INSERT INTO Rotu (nimi, kuvaus) VALUES ('Sileäkarvainen kettuterrieri', 'Sileäkarvainen kettuterrieri on säkäkorkeudeltaan vajaa 40 cm korkea, ruumiinrakenteeltaan neliömäinen koira. Kallo on yhtä pitkä kuin kuono-osa, ja molemmat kapenevat hieman.');
 INSERT INTO Rotu (nimi, kuvaus) VALUES ('Seiskarinkoira', 'Nykyisten seiskarinkoirien jalostuksessa tavoitellaan seuraavan määritelmän mukaista tyyppiä: urosten korkeus 47–53 cm, narttujen 44–50 cm. Paino on suhteessa koiran korkeuteen, yleensä 14–20 kg.');

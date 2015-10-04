@@ -8,7 +8,7 @@ class Koira extends BaseModel {
 
         parent::__construct($attributes);
 
-	$this->validoitavat = array('tarkistaMjononPituus($nimi, 5)', 'tarkistaPaivamaara($syntymapv)'); //"Nimi",, "Syntymäpäivä"
+	$this->validoitavat = array('validoiNimi','validoiSyntymapv');
     }
 
     public static function haeKaikki() { //kaikki koirat
@@ -69,7 +69,37 @@ a.rekisterointipv, a.eronnut, b.nimi as rotu, a.kasvattajatunnus, a.tila FROM Ko
         return null;
     }
 
-    public function tallenna() {
+   public static function haeHyvaksyttavat() { //kesken olevat koirat
+
+        $kysely = DB::connection()->prepare("SELECT a.rekisterinumero, a.nimi, a.syntymapv, a.kuolinpv, a.kuolinsyy, a.sukupuoli, 
+a.rekisterointipv, a.eronnut, b.nimi as rotu, a.kasvattajatunnus, a.tila FROM Koira a, Rotu b  where a.rotutunnus=b.rotutunnus and a.tila='kesken' ");
+	$kysely->execute();
+        $rivit = $kysely->fetchAll();
+
+        $koirat = array();
+
+        foreach ($rivit as $rivi) {
+
+            $koirat[] = new Koira(array(
+                'rekisterinumero' => $rivi['rekisterinumero'],
+                'nimi' => $rivi['nimi'],
+                'syntymapv' => $rivi['syntymapv'],
+                'kuolinpv' => $rivi['kuolinpv'],
+                'kuolinsyy' => $rivi['kuolinsyy'],
+                'sukupuoli' => $rivi['sukupuoli'],
+                'rekisterointipv' => $rivi['rekisterointipv'],
+                'eronnut' => $rivi['eronnut'],
+		'rotu' => $rivi['rotu'],
+                'kasvattaja' => $rivi['kasvattajatunnus'],
+                'tila' => $rivi['tila']
+            ));
+        }
+
+        return $koirat;
+    }
+
+
+    public function tallenna() { //REKISTEROINTIPV JA TILA SUORAAN INSERTTIN
 
         $query = DB::connection()->prepare('INSERT INTO Koira (nimi, rotutunnus, syntymapv, sukupuoli, kasvattajatunnus, rekisterointipv, tila) 
 VALUES (:nimi, :rotu, :syntymapv, :sukupuoli, :kasvattajatunnus, :rekisterointipv, :tila) RETURNING rekisterinumero');
@@ -100,6 +130,18 @@ VALUES (:nimi, :rotu, :syntymapv, :sukupuoli, :kasvattajatunnus, :rekisterointip
         $this->rekisterinumero = $rivi['rekisterinumero'];
     }
 
+public function hyvaksyHylkaa() {
+
+        $kysely = DB::connection()->prepare('update koira set tila=:tila where rekisterinumero=:rekisterinumero RETURNING rekisterinumero');
+
+        $kysely->execute(array('rekisterinumero' => $this->rekisterinumero, 'tila' => $this->tila ));
+        $rivi = $kysely->fetch();
+
+        //Kint::trace();
+        Kint::dump($rivi);
+
+        $this->rekisterinumero = $rivi['rekisterinumero'];
+    }
 
    public function poista() {
 
@@ -115,17 +157,20 @@ VALUES (:nimi, :rotu, :syntymapv, :sukupuoli, :kasvattajatunnus, :rekisterointip
     }
 
 
+ 
+
       public static function haeSukupuolet() { //kaikki sukupuolen arvot
      
       
-        $spuolet = array('N', 'U');
+        $spuolet = array('N', 'U'); //tuota täällä N, narttu; U, uros taulukko
 
         return $spuolet;
     }    
 
-    public static function haeOmistajanTunnuksella($omistajatunnus) { //kaikki omistajan koirat --> omistajasuhteeseen!
-        $kysely = DB::connection()->prepare('SELECT * FROM Koira a, Omistajasuhde b INNER JOIN Omistajasuhde ON koiratunnus=rekisterinumero WHERE omistajatunnus= :omistajatunnus LIMIT 1');
-        $kysely->execute();
+ public static function haeOmistajanTunnuksella($omistajatunnus) { //kaikki omistajan koirat 
+
+        $kysely = DB::connection()->prepare('SELECT * FROM Koira a, Omistajasuhde b WHERE a.rekisterinumero=b.koiratunnus AND omistajatunnus=:omistajatunnus');
+        $kysely->execute(array('omistajatunnus' => $omistajatunnus));
 
         $rivit = $kysely->fetchAll();
 
@@ -150,6 +195,8 @@ VALUES (:nimi, :rotu, :syntymapv, :sukupuoli, :kasvattajatunnus, :rekisterointip
 
         return $koirat;
     }
+
+   
 
     public static function haeNimella($nimi) { //kaikki koirat, joiden koko nimi tai nimen osa täsmää parametriin
         $kysely = DB::connection()->prepare('SELECT * FROM Koira WHERE nimi like ' % $nimi % ' LIMIT 1');
@@ -178,5 +225,49 @@ VALUES (:nimi, :rotu, :syntymapv, :sukupuoli, :kasvattajatunnus, :rekisterointip
         }
         return null;
     }
+
+    public function validoiNimi() {
+
+    	BaseModel::tarkistaMjononPituus('nimi','Nimi', 5);
+
+    }
+
+    public function validoiSyntymapv() {
+
+    	BaseModel::tarkistaPaivamaara('syntymapv', 'Syntymäpäivä');
+
+    }
+
+    public static function haeEmotIsa($sukupuoli) { //kaikki potentiaaliset emot tai isät
+
+        $kysely = DB::connection()->prepare('SELECT * from koira WHERE sukupuoli=:sukupuoli'); //jatkossa myös rekisterinumero<>:rekisterinumero, eli ei itse
+
+        $kysely->execute(array('sukupuoli' => $sukupuoli)); //'rekisterinumero' => $rekisterinumero,
+
+        $rivit = $kysely->fetchAll();
+
+	$vanh=array();
+
+        foreach ($rivit as $rivi) {
+
+            $vanh[] = new Koira(array(
+                 'rekisterinumero' => $rivi['rekisterinumero'],
+                'nimi' => $rivi['nimi'],
+                'syntymapv' => $rivi['syntymapv'],
+                'kuolinpv' => $rivi['kuolinpv'],
+                'kuolinsyy' => $rivi['kuolinsyy'],
+                'sukupuoli' => $rivi['sukupuoli'],
+                'rekisterointipv' => $rivi['rekisterointipv'],
+                'eronnut' => $rivi['eronnut'],
+                'rotu' => $rivi['rotutunnus'],
+                'kasvattaja' => $rivi['kasvattajatunnus'],
+                'tila' => $rivi['tila']
+               
+            ));
+        }
+	return $vanh;
+        
+    }
+   
 
 }

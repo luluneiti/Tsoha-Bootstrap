@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
+
+<div class="alert alert-success">
+  {{viesti}}
+</div>
   <h1>Kirjaudu sis&auml;&auml;n</h1>
+
+{% if virheet %}
+    <div class="alert alert-danger">
+      <ul>
+        {% for virhe in virheet %}
+          <li>{{virhe}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+
 
   <form method="post" action="{{base_path}}/kirjaudu">
     <div class="form-group">

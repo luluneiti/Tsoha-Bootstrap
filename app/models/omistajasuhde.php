@@ -33,6 +33,21 @@ c.nimi as omnimi FROM Omistajasuhde a inner join Omistaja b on a.omistajatunnus=
         return $suhteet;
     }
 
+
+      public function tallenna($omistajatunnus, $koiratunnus) { 
+        $query = DB::connection()->prepare('INSERT INTO Omistajasuhde (omistajatunnus, koiratunnus) 
+VALUES (:omistajatunnus, :koiratunnus) RETURNING koiratunnus');
+
+        $query->execute(array('omistajatunnus' => $omistajatunnus, 'koiratunnus' => $koiratunnus));
+
+        $row = $query->fetch();
+
+        //Kint::trace();
+        //Kint::dump($row);
+
+        $rekisterinumero = $row['koiratunnus'];
+    }
+
      public function poista($rekisterinumero) {
 
         $kysely = DB::connection()->prepare('delete from omistajasuhde where koiratunnus=:rekisterinumero');
@@ -45,6 +60,7 @@ c.nimi as omnimi FROM Omistajasuhde a inner join Omistaja b on a.omistajatunnus=
 
         //$this->koiratunnus = $rivi['koiratunnus'];
     }
+
 
     
 }

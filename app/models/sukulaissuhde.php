@@ -29,10 +29,24 @@ b.nimi as vnimi from sukulaissuhde a, koira b where a.vanhempitunnus=b.rekisteri
 
             ));
 
-	 return $suku;
+	 
         }
 
-       	return null;
+       	return $suku;    
+   }
+   
+       public function tallenna($vanhempitunnus, $lapsitunnus, $suhdetyyppi) { 
+        $query = DB::connection()->prepare('INSERT INTO sukulaissuhde (vanhempitunnus, lapsitunnus, suhdetyyppi) 
+VALUES (:vanhempitunnus, :lapsitunnus, :suhdetyyppi) RETURNING lapsitunnus');
+
+        $query->execute(array('vanhempitunnus' => $vanhempitunnus, 'lapsitunnus' => $lapsitunnus, 'suhdetyyppi' => $suhdetyyppi));
+
+        $row = $query->fetch();
+
+        //Kint::trace();
+        //Kint::dump($row);
+
+        $rekisterinumero = $row['lapsitunnus'];
     }
 
     

@@ -1,8 +1,8 @@
 <?php
 
-class Kayttaja extends BaseModel {
+class Kayttaja extends BaseModel { //tätä luokkaa käytetään vain kirjautumiseen ja lupakyselyihin
 
-    public $kayttajatunnus, $salasana, $rooli, $nimi;
+    public $tunnus, $kayttajatunnus, $salasana, $rooli, $nimi;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -15,6 +15,7 @@ class Kayttaja extends BaseModel {
 	$rivi = $kysely->fetch();
 	if($rivi){
   	         $kayttaja = new Kayttaja(array(
+		'tunnus' => $rivi['tunnus'],
                 'kayttajatunnus' => $rivi['kayttajatunnus'],
                 'salasana' => $rivi['salasana'],
                 'rooli' => $rivi['rooli'],
@@ -40,6 +41,7 @@ class Kayttaja extends BaseModel {
 
         if ($rivi) {
              $kayttaja = new Kayttaja(array(
+		'tunnus' => $rivi['tunnus'],
                 'kayttajatunnus' => $rivi['kayttajatunnus'],
                 'salasana' => $rivi['salasana'],
                 'rooli' => $rivi['rooli'],

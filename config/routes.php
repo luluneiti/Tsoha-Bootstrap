@@ -13,12 +13,17 @@ $routes->post('/kirjaudu', function() {
     KayttajaController::kirjaudu();
 });
 
+$routes->post('/logout', function(){
+  KayttajaController::logout();
+});
+
+
 $routes->get('/', function() {
-    KoiraController::listaaKaikki();
+    KoiraController::listaaOmat();
 });
 
 $routes->get('/koira', function() {
-    KoiraController::listaaKaikki();
+    KoiraController::listaaOmat();
 });
 
 $routes->post('/koira', function() {
@@ -36,6 +41,14 @@ $routes->get('/koira/:rekisterinumero/muokkaa', function($rekisterinumero) {
 
 $routes->post('/koira/:rekisterinumero/muokkaa', function($rekisterinumero) {
    KoiraController::paivitys($rekisterinumero);
+});
+
+$routes->post('/koira/:rekisterinumero/hyvaksy', function($rekisterinumero) {
+   KoiraController::hyvaksy($rekisterinumero);
+});
+
+$routes->post('/koira/:rekisterinumero/hylkaa', function($rekisterinumero) {
+   KoiraController::hylkaa($rekisterinumero);
 });
 
 $routes->post('/koira/:rekisterinumero/poista', function($rekisterinumero){

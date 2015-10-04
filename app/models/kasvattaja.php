@@ -2,7 +2,7 @@
 
 class Kasvattaja extends BaseModel {
 
-    public $kasvattajatunnus, $tunnus, $nimi, $paikkakunta, $alkupv;
+    public $kasvattajatunnus, $tunnus, $knimi, $paikkakunta, $alkupv;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -21,7 +21,7 @@ class Kasvattaja extends BaseModel {
             $kasvattaja[] = new Kasvattaja(array(
                 'kasvattajatunnus' => $rivi['kasvattajatunnus'],
 		'tunnus' => $rivi['tunnus'],
-                'nimi' => $rivi['nimi'],
+                'knimi' => $rivi['nimi'],
                 'paikkakunta' => $rivi['paikkakunta'],
                 
             ));
