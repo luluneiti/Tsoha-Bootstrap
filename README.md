@@ -3,7 +3,7 @@
 Yleisiä linkkejä:
 
 * Linkki sovellukseen: ulgr.users.cs.helsinki.fi/tkharj
-* Käytä esim. "testiasiakas1@hotmail.com" käyttäjätunnusta ja “salasana” salasanaa.
+* Käytä esim. "testiasiakas1@hotmail.com" käyttäjätunnusta ja “salasana” salasanaa. Ko. käyttäjän rooli on "omistaja", eli hän näkee kaikki omistamansa koirat ja pystyy muuttamaan niiden tietoja. Käyttämällä testiasiakas6@hotmail.com" käyttäjätunnusta ja “salasana” salasanaa näet kaikki hyväksyttävät koirat (eli joiden tila on "kesken"). Em. käyttäjän rooli on "hoitaja".
 * Dokumentaatio: https://github.com/luluneiti/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf
 
 Kennelkerho
