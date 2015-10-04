@@ -9,10 +9,9 @@ class Sukulaissuhde extends BaseModel {
     }
 
     public static function haeVanhemmat($rekisterinumero) { //haetaan vanhempien tiedot
-
-     $kysely = DB::connection()->prepare('SELECT a.suhdetunnus, a.vanhempitunnus, a. lapsitunnus, a.suhdetyyppi, 
-b.nimi as vnimi from sukulaissuhde a, koira b where a.vanhempitunnus=b.rekisterinumero and lapsitunnus=:rekisterinumero'); 
-     $kysely->execute(array('rekisterinumero' => $rekisterinumero));
+        $kysely = DB::connection()->prepare('SELECT a.suhdetunnus, a.vanhempitunnus, a. lapsitunnus, a.suhdetyyppi, 
+b.nimi as vnimi from sukulaissuhde a, koira b where a.vanhempitunnus=b.rekisterinumero and lapsitunnus=:rekisterinumero');
+        $kysely->execute(array('rekisterinumero' => $rekisterinumero));
 
         $rivit = $kysely->fetchAll();
 
@@ -23,19 +22,16 @@ b.nimi as vnimi from sukulaissuhde a, koira b where a.vanhempitunnus=b.rekisteri
             $suku[] = new Sukulaissuhde(array(
                 'suhdetunnus' => $rivi['suhdetunnus'],
                 'vanhempitunnus' => $rivi['vanhempitunnus'],
-		'lapsitunnus' => $rivi['lapsitunnus'],
-		'suhdetyyppi' => $rivi['suhdetyyppi'],
+                'lapsitunnus' => $rivi['lapsitunnus'],
+                'suhdetyyppi' => $rivi['suhdetyyppi'],
                 'vnimi' => $rivi['vnimi']
-
             ));
-
-	 
         }
 
-       	return $suku;    
-   }
-   
-       public function tallenna($vanhempitunnus, $lapsitunnus, $suhdetyyppi) { 
+        return $suku;
+    }
+
+    public function tallenna($vanhempitunnus, $lapsitunnus, $suhdetyyppi) {
         $query = DB::connection()->prepare('INSERT INTO sukulaissuhde (vanhempitunnus, lapsitunnus, suhdetyyppi) 
 VALUES (:vanhempitunnus, :lapsitunnus, :suhdetyyppi) RETURNING lapsitunnus');
 
@@ -49,7 +45,6 @@ VALUES (:vanhempitunnus, :lapsitunnus, :suhdetyyppi) RETURNING lapsitunnus');
         $rekisterinumero = $row['lapsitunnus'];
     }
 
-    
     public function poista($rekisterinumero) {
 
         $kysely = DB::connection()->prepare('delete from sukulaissuhde where vanhempitunnus=:rekisterinumero or lapsitunnus=:rekisterinumero RETURNING suhdetunnus');
@@ -62,6 +57,5 @@ VALUES (:vanhempitunnus, :lapsitunnus, :suhdetyyppi) RETURNING lapsitunnus');
 
         //$this->suhdetunnus = $rivi['suhdetunnus'];
     }
-
 
 }

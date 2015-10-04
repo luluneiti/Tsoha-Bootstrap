@@ -2,88 +2,88 @@
 {% block content %}
 
 {% if virheet %}
-    <div class="alert alert-danger">
-      <ul>
+<div class="alert alert-danger">
+    <ul>
         {% for virhe in virheet %}
-          <li>{{virhe}}</li>
+        <li>{{virhe}}</li>
         {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
+    </ul>
+</div>
+{% endif %}
 
-  <h2>Lis&auml;tt&auml;v&auml;n koiran tiedot</h2>
+<h2>Lis&auml;tt&auml;v&auml;n koiran tiedot</h2>
 
-  <form method="post" action="{{base_path}}/koira">
-   
-    <div class="form-group">
-      <label>Nimi</label>
-      <input name="nimi" class="form-control" type="text" value="{{koira.nimi}}">
-    </div>
+<form method="post" action="{{base_path}}/koira">
 
     <div class="form-group">
-      <label>Rotu</label>
-	<select class="form-control" name="rotu">
-    		{% for rotu in rodut %}
-      		<option value="{{rotu.rotutunnus}}" {% if rotu.rotutunnus==koira.rotu %} selected {% endif %} >{{rotu.rnimi}}</option>
-    		{% endfor %}
-  	</select>
+        <label>Nimi</label>
+        <input name="nimi" class="form-control" type="text" value="{{koira.nimi}}">
     </div>
 
     <div class="form-group">
-      <label>Syntym&auml;p&auml;iv&auml;</label>
-      <input name="syntymapv" class="form-control" type="text" value="{{koira.syntymapv}}">
+        <label>Rotu</label>
+        <select class="form-control" name="rotu">
+            {% for rotu in rodut %}
+            <option value="{{rotu.rotutunnus}}" {% if rotu.rotutunnus==koira.rotu %} selected {% endif %} >{{rotu.rnimi}}</option>
+            {% endfor %}
+        </select>
     </div>
 
     <div class="form-group">
-      <label>Sukupuoli</label>
-      	 <select class="form-control" name="sukupuoli" value="{{koira.sukupuoli}}">
-    		<option value="N" {% if koira.sukupuoli=="N" %} selected {% endif %} >Narttu</option>
-    		<option value="U" {% if koira.sukupuoli=="U" %} selected {% endif %}>Uros</option>
-  	</select>
+        <label>Syntym&auml;p&auml;iv&auml;</label>
+        <input name="syntymapv" class="form-control" type="text" value="{{koira.syntymapv}}">
+    </div>
+
+    <div class="form-group">
+        <label>Sukupuoli</label>
+        <select class="form-control" name="sukupuoli" value="{{koira.sukupuoli}}">
+            <option value="N" {% if koira.sukupuoli=="N" %} selected {% endif %} >Narttu</option>
+            <option value="U" {% if koira.sukupuoli=="U" %} selected {% endif %}>Uros</option>
+        </select>
 
     </div>
 
     <div class="form-group">
-      <label>Kasvattaja</label>
+        <label>Kasvattaja</label>
         <select class="form-control" name="kasvattaja">
-    		{% for kasvattaja in kasvattajat %}
-      		<option value="{{kasvattaja.kasvattajatunnus}}" {% if kasvattaja.kasvattajatunnus==koira.kasvattaja %} selected {% endif %} >{{kasvattaja.knimi}}</option>
-    		{% endfor %}
-  	</select>
+            {% for kasvattaja in kasvattajat %}
+            <option value="{{kasvattaja.kasvattajatunnus}}" {% if kasvattaja.kasvattajatunnus==koira.kasvattaja %} selected {% endif %} >{{kasvattaja.knimi}}</option>
+            {% endfor %}
+        </select>
     </div>
 
     <div class="form-group">
-      <label>Omistaja(t)</label>
-       <select class="form-control" name="omistaja">
-    		<option value="{{user_logged_in.tunnus}}" selected >{{user_logged_in.nimi}}</option>
-  	</select>
-     
+        <label>Omistaja(t)</label>
+        <select class="form-control" name="omistaja">
+            <option value="{{user_logged_in.tunnus}}" selected >{{user_logged_in.nimi}}</option>
+        </select>
+
     </div>
 
     <div class="form-group">
-      <label>Em&auml</label>
+        <label>Em&auml</label>
         <select class="form-control" name="ema">
-    		{% for ema in emat %}
-      		<option value="{{ema.rekisterinumero}}" >{{ema.nimi}}</option>
-    		{% endfor %}
-  	</select>
+            {% for ema in emat %}
+            <option value="{{ema.rekisterinumero}}" >{{ema.nimi}}</option>
+            {% endfor %}
+        </select>
     </div>
 
     <div class="form-group">
-      <label>Is&auml</label>
+        <label>Is&auml</label>
         <select class="form-control" name="isa">
-    		{% for isa in isat %}
-      		<option value="{{isa.rekisterinumero}}" >{{isa.nimi}}</option>
-    		{% endfor %}
-  	</select>
+            {% for isa in isat %}
+            <option value="{{isa.rekisterinumero}}" >{{isa.nimi}}</option>
+            {% endfor %}
+        </select>
     </div>
 
 
-     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Lis&auml;&auml;</button>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Lis&auml;&auml;</button>
     </div>
 
 
-  </form>
+</form>
 
 {% endblock %}

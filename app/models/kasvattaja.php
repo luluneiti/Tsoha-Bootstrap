@@ -20,15 +20,13 @@ class Kasvattaja extends BaseModel {
 
             $kasvattaja[] = new Kasvattaja(array(
                 'kasvattajatunnus' => $rivi['kasvattajatunnus'],
-		'tunnus' => $rivi['tunnus'],
+                'tunnus' => $rivi['tunnus'],
                 'knimi' => $rivi['nimi'],
                 'paikkakunta' => $rivi['paikkakunta'],
-                
             ));
         }
 
         return $kasvattaja;
     }
 
-    
 }
