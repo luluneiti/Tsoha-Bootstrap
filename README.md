@@ -3,7 +3,10 @@
 Yleisiä linkkejä:
 
 * Linkki sovellukseen: ulgr.users.cs.helsinki.fi/tkharj
-* Käytä esim. "testiasiakas1@hotmail.com" käyttäjätunnusta ja “salasana” salasanaa. Ko. käyttäjän rooli on "omistaja", eli hän näkee kaikki omistamansa koirat ja pystyy muuttamaan niiden tietoja. Käyttämällä testiasiakas6@hotmail.com" käyttäjätunnusta ja “salasana” salasanaa näet kaikki hyväksyttävät koirat (eli joiden tila on "kesken"). Em. käyttäjän rooli on "hoitaja".
+* Testikäyttäjiä:
+  * Omistaja: "testiasiakas1@hotmail.com" käyttäjätunnus ja “salasana” salasana ja näet kaikki käyttäjän omistamat koirat ja pystyy muuttamaan omien koiriensa tietoja
+  * Hoitaja: "testiasiakas6@hotmail.com" käyttäjätunnus ja “salasana” salasana ja näet kaikki hyväksyttävät koirat (eli joiden tila on "kesken")
+  * Kkirjaaja:"testiasiakas4@hotmail.com" käyttäjätunnus ja “salasana” salasana ja näet kaikki ko. käyttäjän vastuulla olevat kokeet ja näyttelyt ja pystyt lisäämään uusia kokeita/näyttelyitä ja tuloksia käyttäjän vastuulla oleviin kisoihin. Voit myös selailla kaikkia syötettyjä tuloksia.
 * Dokumentaatio: https://github.com/luluneiti/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf
 
 Kennelkerho
