@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+<form method="post" action="{{base_path}}/kayttaja/{{user_logged_in.tunnus}}/muokkaa">
+
+    {% if virheet %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for virhe in virheet %}
+            <li>{{virhe}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+
+    <h2>Muokkaa omia tietojasi:</h2>
+
+    <form>
+
+ <div class="form-group">
+        <label>Rooli</label>
+        <input name="rooli" class="form-control" type="text" value="{{kayttaja.rooli}}" disabled>
+    </div>
+
+    <div class="form-group">
+        <label>Nimi</label>
+        <input name="nimi" class="form-control" type="text" value="{{kayttaja.nimi}}" required>
+    </div>
+
+    <div class="form-group">
+        <label>K&auml;ytt&auml;j&auml;tunnus</label>
+        <input name="kayttajatunnus" class="form-control" type="text" value="{{kayttaja.kayttajatunnus}}" disabled>
+    </div>
+
+
+     <div class="form-group">
+        <label>Salasana</label>
+        <input name="salasana" class="form-control" type="text" value="{{kayttaja.salasana}}" required>
+    </div>
+
+     <div class="form-group">
+        <label>Osoite</label>
+        <input name="osoite" class="form-control" type="text" value="{{kayttaja.osoite}}" required>
+    </div>
+
+    {% if kayttaja.rooli=="omistaja" %}
+    <div class="form-group">
+        <label>Osoitetietojen n&auml;ytt&ouml; salittu?</label>
+        <select class="form-control" name="yhteystietojenNaytto" required>
+             <option value="kylla" {% if omistaja.yhteystietojenNaytto==true %} selected {% endif %}>Kyll&auml; </option>
+             <option value="ei" {% if omistaja.yhteystietojenNaytto==false %} selected {% endif %} >Ei</option>
+        </select>
+    </div>
+    {% endif %}
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Tallenna</button>
+    </div>
+    
+    
+
+    </form>
+
+
+
+    {% endblock %}

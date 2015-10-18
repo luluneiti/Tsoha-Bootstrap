@@ -48,6 +48,27 @@ class Rotu extends BaseModel {
 
         return null;
     }
+   
+
+    public static function haeTunnuksella($tunnus) { //rodun haku tunnuksella
+        $kysely = DB::connection()->prepare('SELECT * FROM rotu where rotutunnus=:tunnus');
+        $kysely->execute(array('tunnus' => $tunnus));
+        $rivi = $kysely->fetch();
+
+        if ($rivi) {
+            $rotu[] = new Rotu(array(
+                'rotutunnus' => $rivi['rotutunnus'],
+                'rnimi' => $rivi['nimi'],
+		'kuvaus' => $rivi['kuvaus']
+               
+            ));
+
+            return $rotu;
+        }
+
+        return null;
+    }
+  
 
 
     

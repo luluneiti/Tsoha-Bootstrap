@@ -36,6 +36,7 @@ CREATE TABLE Omistaja(
 
 CREATE TABLE KoeNayttely(
   tapahtumatunnus SERIAL PRIMARY KEY,
+  tunnus INTEGER REFERENCES Kayttaja(tunnus),
   tyyppi varchar(15) NOT NULL,
   alityyppi varchar(25) NOT NULL,
   nimi varchar(30) NOT NULL,

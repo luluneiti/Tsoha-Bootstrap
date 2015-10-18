@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if virheet %}
+<div class="alert alert-danger">
+    <ul>
+        {% for virhe in virheet %}
+        <li>{{virhe}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<h2>Lis&auml;tt&auml;v&auml;n kokeen tai n&auml;yttelyn tiedot</h2>
+
+<form method="post" action="{{base_path}}/koeNayttely">
+
+    <div class="form-group">
+        <label>Nimi</label>
+        <input name="nimi" class="form-control" type="text" value="{{tapahtuma.nimi}}" required>
+    </div>
+
+    <div class="form-group">
+        <label>Paikkakunta</label>
+        <input name="paikkakunta" class="form-control" type="text" value="{{tapahtuma.paikkakunta}}" required>
+    </div>
+
+    <div class="form-group">
+        <label>Alkup&auml;iv&auml;</label>
+        <input name="alkupv" class="form-control" type="text" value="{{tapahtuma.alkupv}}" required>
+    </div>
+
+    <div class="form-group">
+        <label>Loppup&auml;iv&auml;</label>
+        <input name="loppupv" class="form-control" type="text" value="{{tapahtuma.loppupv}}" required>
+    </div>
+
+    <div class="form-group">
+        <label>Tapahtumatyyppi</label>
+        <select class="form-control" name="tyyppi" required>
+            {% for tyyppi in tyypit%}
+            <option value="{{tyyppi}}" {% if tapahtuma.tyyppi==tyyppi %} selected {% endif %} >{{tyyppi}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+    <div class="form-group">
+        <label>Tapahtuman alityyppi</label>
+        <input name="alityyppi" class="form-control" type="text" value="{{tapahtuma.alityyppi}}" required>
+    </div>
+
+   <div class="form-group">
+        <label>Vastuuhenkil&ouml;</label>
+        <select class="form-control" name="tunnus" required>
+            <option value="{{user_logged_in.tunnus}}" selected >{{user_logged_in.nimi}}</option>
+        </select>
+
+    </div>
+
+     
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Lis&auml;&auml;</button>
+    </div>
+
+
+</form>
+
+{% endblock %}

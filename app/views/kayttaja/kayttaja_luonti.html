@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if virheet %}
+<div class="alert alert-danger">
+    <ul>
+        {% for virhe in virheet %}
+        <li>{{virhe}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<h2>Lis&auml;tt&auml;v&auml;n k&auml;ytt&auml;j&auml;n tiedot</h2>
+
+<form method="post" action="{{base_path}}/kayttaja">
+
+
+
+     <div class="form-group">
+        <label>Rooli</label>
+        <select class="form-control" name="rooli" required>
+            {% for rooli in roolit %}
+            <option value="{{rooli}}"=>{{rooli}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Nimi</label>
+        <input name="nimi" class="form-control" type="text" value="{{kayttaja.nimi}}" required>
+    </div>
+
+    <div class="form-group">
+        <label>K&auml;ytt&auml;j&auml;tunnus</label>
+        <input name="kayttajatunnus" class="form-control" type="text" value="{{kayttaja.kayttajatunnus}}" required>
+    </div>
+
+
+     <div class="form-group">
+        <label>Salasana</label>
+        <input name="salasana" class="form-control" type="text" value="{{kayttaja.salasana}}" required>
+    </div>
+
+     <div class="form-group">
+        <label>Osoite</label>
+        <input name="osoite" class="form-control" type="text" value="{{kayttaja.osoite}}" required>
+    </div>
+	
+     <div class="form-group">
+        <label>Osoitetietojen n&auml;ytt&ouml; salittu?</label>
+        <select class="form-control" name="yhteystietojenNaytto" required>
+             <option value="kylla">Kyll&auml;</option>
+             <option value="ei">Ei</option>
+        </select>
+    </div>
+ 
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Lis&auml;&auml;</button>
+    </div>
+
+
+</form>
+
+{% endblock %}

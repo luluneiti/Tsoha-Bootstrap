@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="alert alert-success">
+    {{viesti}}
+</div>
+
+
+{% if virheet %}
+<div class="alert alert-danger">
+    <ul>
+        {% for virhe in virheet %}
+        <li>{{virhe}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<h2>K&auml;ytt&auml;j&auml;n {{user_logged_in.nimi}} vastuulla olevat kokeet ja n&auml;yttelyt</h2>
+
+<p>
+    <a href="{{base_path}}/koeNayttely/uusi" class="btn btn-success">Lis&auml;&auml; koe tai n&auml;yttely</a>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead>
+
+        <tr>
+            <th>Tapahtumatunnus</th>
+            <th>Nimi</th>
+	    <th>Tapahtumatyyppi</th>
+            <th>Paikkakunta</th>
+            <th>Alkup&auml;iv&auml;</th>
+            <th>Loppup&auml;iv&auml;</th>
+           
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for tap in tapahtumat %}
+        <tr>
+            <td>{{tap.tapahtumatunnus}}</td>
+            <td>{{tap.nimi}}</td>
+            <td>{{tap.tyyppi}}, {{tap.alityyppi}}</td>
+            <td>{{tap.paikkakunta}}</td>
+            <td>{{tap.alkupv}}</td>
+	    <td>{{tap.loppupv}}</td>
+            <td><a class="btn btn-default btn-sm" href="{{base_path}}/koeNayttelyT/{{tap.tapahtumatunnus}}/lisaa">Lis&auml;&auml; tulos</a></td>
+
+         </tr>
+
+         {% endfor %}
+      </tbody>
+</table>
+{% endblock %}

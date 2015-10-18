@@ -9,7 +9,7 @@ class BaseController {
         if (isset($_SESSION['kayttaja'])) {
             $kayttajatunnus = $_SESSION['kayttaja'];
             // Pyydetään User-mallilta käyttäjä session mukaisella id:llä
-            $kayttaja = Kayttaja::haeTunnuksella($kayttajatunnus);
+            $kayttaja = Kayttaja::haeKTunnuksella($kayttajatunnus);
 
             return $kayttaja;
         }

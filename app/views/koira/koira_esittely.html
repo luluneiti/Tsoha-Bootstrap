@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% import "makrot/lomakkeet.html" as lomakkeet %}
 
 <div class="alert alert-success">
   {{viesti}}
@@ -29,9 +30,13 @@ class="destroy-form" data-confirm="Oletko varma, ett&auml; haluat poistaa koiran
 
 {% if user_logged_in.rooli=="hoitaja" %}
     <p>
-    <form method="post" action="{{base_path}}/koira/{{koira.rekisterinumero}}/hyvaksy"><button type="submit" class="btn btn-danger">Hyv&auml;ksy</button>
-    <form method="post" action="{{base_path}}/koira/{{koira.rekisterinumero}}/hylkaa"><button type="submit" class="btn btn-danger">Hylk&auml;&auml;</button>
+	  <td> <form method="post" action="{{base_path}}/koira/{{koira.rekisterinumero}}/hyvaksy" style="display: inline-block;" 
+class="destroy-form" ><button type="submit" class="btn btn-danger">Hyv&auml;ksy</button></form> </td>
 
+		<td> <form method="post" action="{{base_path}}/koira/{{koira.rekisterinumero}}/hylkaa" style="display: inline-block;" 
+class="destroy-form" data-confirm="Oletko varma, ett&auml; haluat hyl&auml;t&auml; koiran?"><button type="submit" class="btn btn-danger">Hylk&auml;&auml;</button></form> </td>
+
+  
     </p>
 {% endif %}
 
@@ -44,7 +49,7 @@ class="destroy-form" data-confirm="Oletko varma, ett&auml; haluat poistaa koiran
     <li><strong>Syntym&auml;p&auml;iv&auml;:</strong> {{koira.syntymapv}}</li>
     <li><strong>Rekister&ouml;intip&auml;iv&auml;</strong> {{koira.rekisterointipv}}</li>
     <li><strong>Sukupuoli:</strong> {{koira.sukupuoli}}</li>
-     <li><strong>Kasvattaja:</strong><a href="#"> {{koira.kasvattaja}}</a></li>
+     <li><strong>Kasvattaja:</strong> {{koira.kasvattaja}}</a></li>
   </ul>
   
 
@@ -61,37 +66,10 @@ class="destroy-form" data-confirm="Oletko varma, ett&auml; haluat poistaa koiran
 <h3>Sukulaisuussuhteet</h3>
   <ul>
  {% for suk in suku %}
-    <li>{{suk.suhdetyyppi}}: {{suk.vnimi}} </li>
+    <li> {% if suk.suhdetyyppi=="isa" %}  Is&auml;: {% endif %} {% if suk.suhdetyyppi=="ema" %}  Em&auml;: {% endif %} {{suk.vnimi}} </li>
  {% endfor %}
  </ul>
 
-<h3>Terveystulokset</h3>
-
-<table class="table table-striped table-bordered">
-    <thead>
-
-      <tr>
-	<th>P&auml;iv&auml;ysm&auml;&auml;r&auml;</th>
-	<th>Kohde</th>
-	<th>Tulos</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <!-- Listataan  terveystulokset tähän -->
-      <tr>
-        <td>14.2.2012</td>
-	<td>kyynärnive</td>
-	<td>0/0</td>
-      </tr>
- 
- <tr>
-        <td>10.2.2012</td>
-	<td>lonkkanive</td>
-	<td>A/A</td>
-      </tr>
- </tbody>
-</table>
 
 <h3>Koe- ja n&auml;yttelytulokset</h3>
 
@@ -105,7 +83,6 @@ class="destroy-form" data-confirm="Oletko varma, ett&auml; haluat poistaa koiran
 	<th>Lis&auml;tieto</th>
 	<th>Paikka</th>
 	<th>P&auml;iv&auml;m&auml;&auml;r&auml;</th>
-	<th>Tuomari</th>
       </tr>
     </thead>
 
@@ -121,7 +98,6 @@ class="destroy-form" data-confirm="Oletko varma, ett&auml; haluat poistaa koiran
 	<td>{{tulos.tuloslisatieto}}</td>
 	<td>{{tulos.paikkakunta}}</td>
 	<td>{{tulos.tulospv}}</td>
-	<td>M. Meikäläinen</td>
       </tr>
  {% endfor %}
  </tbody>

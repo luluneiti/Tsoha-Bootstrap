@@ -14,7 +14,11 @@ $routes->post('/kirjaudu', function() {
 });
 
 $routes->post('/logout', function() {
-    KayttajaController::logout();
+    KayttajaController::kirjauduUlos();
+});
+
+$routes->get('/hae', function() {
+    KoiraController::listaaKaikki();
 });
 
 
@@ -26,6 +30,14 @@ $routes->get('/koira', function() {
     KoiraController::listaaOmat();
 });
 
+$routes->get('/koeNayttely', function() {
+    KoeNayttelyController::listaaOmat();
+});
+
+$routes->get('/koeNayttelyT', function() {
+    KoeNayttelyTulosController::listaa();
+});
+
 $routes->post('/koira', function() {
     KoiraController::lisaa();
 });
@@ -34,6 +46,47 @@ $routes->get('/koira/uusi', function() {
     KoiraController::naytaLisaa();
 });
 
+
+$routes->post('/kayttaja', function() {
+    KayttajaController::lisaa();
+});
+
+$routes->get('/kayttaja/uusi', function() {
+    KayttajaController::naytaLisaa();
+});
+
+
+
+$routes->post('/koeNayttely', function() {
+    KoeNayttelyController::lisaa();
+});
+
+$routes->get('/koeNayttely/uusi', function() {
+    KoeNayttelyController::naytaLisaa();
+});
+
+
+$routes->get('/koeNayttelyT/:tapahtumatunnus/lisaa', function($tapahtumatunnus) {
+    KoeNayttelyTulosController::naytaLisaa($tapahtumatunnus);
+});
+
+
+$routes->post('/koeNayttelyT/:tapahtumatunnus/lisaa', function($tapahtumatunnus) {
+    KoeNayttelyTulosController::lisaa($tapahtumatunnus);
+});
+
+
+$routes->get('/kayttaja/:tunnus/muokkaa', function($tunnus) {
+    KayttajaController::naytaMuuta($tunnus);
+});
+
+$routes->post('/kayttaja/:tunnus/muokkaa', function($tunnus) {
+    KayttajaController::paivitys($tunnus);
+});
+
+$routes->post('/kayttaja/:tunnus/poista', function($tunnus) {
+    KayttajaController::poisto($tunnus);
+});
 
 $routes->get('/koira/:rekisterinumero/muokkaa', function($rekisterinumero) {
     KoiraController::naytaMuuta($rekisterinumero);
@@ -59,31 +112,20 @@ $routes->get('/koira/:rekisterinumero', function($rekisterinumero) {
     KoiraController::esittely($rekisterinumero);
 });
 
-
-
-$routes->get('/koirahyvaksynta', function() {
-    HelloWorldController::koiraHyvaksynta_listaus();
+$routes->get('/kayttaja/:tunnus', function($tunnus) {
+    KayttajaController::esittely($tunnus);
 });
 
-$routes->get('/koirahyvaksynta/1', function() {
-    HelloWorldController::koiraHyvaksynta_esittely();
-});
 
-$routes->get('/koenayttely', function() {
-    HelloWorldController::koeNayttely_listaus();
-});
 
-$routes->get('/koenayttelyluonti', function() {
-    HelloWorldController::koeNayttely_luonti();
-});
+
+//ei toteutettu
+
 
 $routes->get('/koenayttelymuokkaus', function() {
     HelloWorldController::koeNayttely_muokkaus();
 });
 
-$routes->get('/koenayttelytulosluonti', function() {
-    HelloWorldController::koeNayttelyTulos_luonti();
-});
 
 $routes->get('/koenayttelytulosmuokkaus', function() {
     HelloWorldController::koeNayttelyTulos_muokkaus();

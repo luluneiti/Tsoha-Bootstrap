@@ -22,52 +22,81 @@ class BaseModel {
 
         foreach ($this->validoitavat as $validoitava) {
 
-            $vvirheet = array($this->{$validoitava}());
-            $virheet = array_merge($virheet, $vvirheet);
+            $vvirheet = $this->{$validoitava}();
+	    if(count($vvirheet) > 0){
+            	$virheet = array_merge($virheet, $vvirheet);
+	    }
         }
 
-        Kint::dump($virheet);
         return $virheet;
     }
 
     public function tarkistaMjononPituus($mjono, $kentta, $pituus) {
 
-        $vvirheet = array();
+        $virh1 = array();
 
-        if ($this->$mjono == '' || $this->$mjono == null) {
-            $vvirheet[] = $kentta . ' tieto ei saa olla tyhjä!'; // 
+        if ($this->{$mjono} == '' || $this->{$mjono} == null) {
+            $virh1[] = $kentta . ' tieto ei saa olla tyhjä!'; // 
         }
-        if (strlen($this->$mjono) < $pituus) {
-            $vvirheet[] = $kentta . ' kentän pituuden tulee olla vähintään ' . $pituus; //
+        if (strlen($this->{$mjono}) < $pituus) {
+            $virh1[] = $kentta . ' kentän pituuden tulee olla vähintään ' . $pituus; //
         }
 
-        Kint::dump($vvirheet);
-        return $vvirheet;
+        return $virh1;
     }
 
     public function tarkistaNumero($mjono, $kentta) {
 
-        $vvirheet = array();
+        $virh2 = array();
 
-        if ((bool) is_numeric($mjono) == false) {
-            $vvirheet[] = $kentta . ' ei ole numeerinen!';
+        if ((bool) is_numeric($this->{$mjono}) == false) {
+            $virh2[] = $kentta . ' ei ole numeerinen!';
         }
 
-        Kint::dump($vvirheet);
-        return $vvirheet;
+        return $virh2;
     }
 
     public function tarkistaPaivamaara($pvm, $kentta) {
 
-        $vvirheet = array();
-
-        if (!preg_match("/[0-9]{2}.[0-9]{2}.[0-9]{4}/", $this->$pvm)) {
-            $vvirheet[] = $kentta . ' ei ole validi!';
+        $virh3 = array();
+      	//Kint::dump($this->{$pvm});
+		if (preg_match('^(0?[1-9]|[12][0-9]|3[01])[ \/.-](0?[1-9]|1[012])[ \/.-](19|20)\d\d$^', $this->{$pvm})==false)  {
+            $virh3[] = $kentta . ' ei ole validi!';
         }
-        //tarkista ettei ole tulevaisuudessa
-
-        Kint::dump($vvirheet);
-        return $vvirheet;
+       
+        return $virh3;
     }
 
+  
+   public function tarkistaSapo($sapo, $kentta) {
+	
+	$virh4 = array();
+
+	if (filter_var($this->{$sapo}, FILTER_VALIDATE_EMAIL)==false) {
+  		 $virh4[] = $kentta . ' ei ole validi!';
+
+	}
+
+	return $virh4;
+
+   }
+
+    public function tarkistaPaivamaara2($eka, $toka, $kentta_eka, $kentta_toka) {
+
+    $virh5 = array();
+
+    $pvm1=date('d-m-Y', strtotime($this->{$eka}));
+    $pvm2=date('d-m-Y', strtotime($this->{$toka}));
+
+    
+    if ($pvm1 > $pvm2) {
+	$virh5[] = $kentta_eka . ' ei voi olla suurempi kuin ' . $kentta_toka;
+
+
+    }
+
+    return $virh5;
+
+
+   }
 }

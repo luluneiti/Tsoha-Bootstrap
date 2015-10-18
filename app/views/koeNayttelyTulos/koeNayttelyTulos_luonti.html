@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if virheet %}
+<div class="alert alert-danger">
+    <ul>
+        {% for virhe in virheet %}
+        <li>{{virhe}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<h2>Lis&auml;tt&auml;v&auml;n tuloksen tiedot kokeelle/n&auml;yttelylle {{tap.tapahtumatunnus}}</h2>
+
+<form method="post" action="{{base_path}}/koeNayttelyT/{{tap.tapahtumatunnus}}/lisaa">
+
+    <div class="form-group">
+        <label>Tulos</label>
+        <input name="tulos" class="form-control" type="text" value="{{tulos}}" required>
+    </div>
+
+
+    <div class="form-group">
+        <label>Tulosp&auml;iv&auml;</label>
+        <input name="tulospv" class="form-control" type="text" value="{{tulospv}}" required>
+    </div>
+
+    <div class="form-group">
+        <label>Tuloslis&auml;tieto</label>
+        <input name="tuloslisatieto" class="form-control" type="text" value="{{tuloslisatieto}}" required>
+    </div>
+
+
+    <div class="form-group">
+        <label>Tuloksen tehnyt koira:</label>
+        <select class="form-control" name="koiratunnus" required>
+            {% for koira in koirat %}
+            <option value="{{koira.rekisterinumero}}" >{{koira.nimi}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+  
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Lis&auml;&auml;</button>
+    </div>
+
+
+</form>
+
+{% endblock %}

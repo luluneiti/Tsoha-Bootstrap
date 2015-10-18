@@ -3,237 +3,196 @@
 class KoiraController extends BaseController {
 
     public static function listaaKaikki() { //hae kaikki koirat tai nimellä tai nimen osalla
-	
-	$koirat = Koira::haekaikki(); 
-        View::make('koira_listaus.html', array('koirat' => $koirat));
-    }
+        $params = $_GET;
+        $options = array();
 
+        if (isset($params['haku'])) {
+            $options['haku'] = $params['haku'];
+            $koirat = Koira::haeKaikki($options);
+        } else {
+            $options['haku'] = '';
+            $koirat = Koira::haekaikki($options);
+        }
+        if ($koirat == null) {
+
+            View::make('koira/koira_haku.html', array('koirat' => $koirat, 'viesti' => 'Hakuehdolla ei loydy koiria!'));
+        } else {
+            View::make('koira/koira_haku.html', array('koirat' => $koirat));
+        }
+    }
 
     public static function listaaOmat() {
 
-	self::check_logged_in();
-	if(self::get_user_logged_in()->rooli=="omistaja"){
-		$koirat =Koira::haeOmistajanTunnuksella(self::get_user_logged_in()->tunnus);
-	}
-	else { //hoitaja
-		$koirat =Koira::haeHyvaksyttavat();
-		
-	}
+        self::check_logged_in();
+        if (self::get_user_logged_in()->rooli == "omistaja") {
+            $koirat = Koira::haeOmistajanTunnuksella(self::get_user_logged_in()->tunnus); //listaa omistajan koirat
+            if ($koirat == null) {
+                View::make('koira/koira_listaus.html', array('koirat' => $koirat, 'viesti' => 'Sinulla ei ole viela koiria!'));
+            } else {
+                View::make('koira/koira_listaus.html', array('koirat' => $koirat));
+            }
+        }
+        if (self::get_user_logged_in()->rooli == "hoitaja") { //listaa hyväksyttävät koirat
+            $koirat = Koira::haeHyvaksyttavat();
+            if ($koirat == null) {
+                View::make('koira/koira_listaus.html', array('koirat' => $koirat, 'viesti' => 'Ei hyvaksyttavia koiria!'));
+            } else {
+                View::make('koira/koira_listaus.html', array('koirat' => $koirat));
+            }
+        }
+        if (self::get_user_logged_in()->rooli == "kkirjaaja") {
 
-        View::make('koira_listaus.html', array('koirat' => $koirat));
+            Redirect::to("/koeNayttely");
+        }
     }
 
-
     public static function esittely($rekisterinumero) { //hae yksi koira
-	//self::check_logged_in();
-	$suhteet = Omistajasuhde::haeSuhteet($rekisterinumero);
-	$suku = Sukulaissuhde::haeVanhemmat($rekisterinumero);
-	$tulokset = KoeNayttelyTulos::haeTulokset($rekisterinumero);
+        $suhteet = Omistajasuhde::haeSuhteet($rekisterinumero);
+        $suku = Sukulaissuhde::haeVanhemmat($rekisterinumero);
+        $tulokset = KoeNayttelyTulos::haeTulokset($rekisterinumero);
         $koira = Koira::haeTunnuksella($rekisterinumero);
-	//Kint::dump($suku);
-        View::make('koira_esittely.html', array('koira' => $koira, 'suhteet' =>  $suhteet,  'suku' =>  $suku,  'tulokset' =>  $tulokset));
+        View::make('koira/koira_esittely.html', array('koira' => $koira, 'suhteet' => $suhteet, 'suku' => $suku, 'tulokset' => $tulokset));
     }
 
     public static function naytaLisaa() { //nayta lisayslomake
-	//self::check_logged_in();
-	$rodut = Rotu::haekaikki();
-	$kasvattajat = Kasvattaja::haekaikki();
-	$emat=Koira::haeEmotIsa('N');
-	$isat=Koira::haeEmotIsa('U');
-	$omistajat = Omistaja::haekaikki();
-	//$spuolet = Koira::haeSukupuolet(); 
+        $rodut = Rotu::haekaikki();
+        $kasvattajat = Kasvattaja::haekaikki();
+        $emat = Koira::haeEmotIsat('N', 0); //0 ei ole minkään koiran tunnus ja tässä kaikki nartut näy emoiksi
+        $isat = Koira::haeEmotIsat('U', 0); //0 ei ole minkään koiran tunnus ja tässä kaikki urokset näy isaksi
 
-        View::make('koira_luonti.html', array('rodut' => $rodut, 'kasvattajat' => $kasvattajat, 'emat' => $emat, 'isat' => $isat, 'omistajat' => $omistajat) ); 
+        View::make('koira/koira_luonti.html', array('rodut' => $rodut, 'kasvattajat' => $kasvattajat, 'emat' => $emat, 'isat' => $isat));
     }
 
-    public static function lisaa() { //koiran lisays TALLENNA MYÖS OMISTAJASUHDE JA SUKULAISSUHDE
-
+    public static function lisaa() { //koiran lisays 
         $params = $_POST;
-	Kint::dump($params);
+
+        $tanaan = date('d-m-Y');
 
         $koira = array(
-            'rotu' => $params['rotu'], 
+            'rotu' => $params['rotu'],
             'kasvattaja' => $params['kasvattaja'],
             'nimi' => $params['nimi'],
             'syntymapv' => $params['syntymapv'],
             'sukupuoli' => $params['sukupuoli'],
-            'rekisterointipv' => '2015-09-18',  //sql lauseeseen current date
-            'tila' => 'kesken' 
+            'rekisterointipv' => $tanaan,
+            'tila' => 'kesken'
         );
-	
-	$koir = new Koira($koira);
 
-  	//$virheet = $koir->errors();
-	//Kint::dump($virheet);
+        $koir = new Koira($koira);
 
-	 //if(count($virheet) > 0){
-		//$rodut = Rotu::haekaikki();
-		//$kasvattajat = Kasvattaja::haekaikki();
-    		//View::make('koira_luonti.html', array('virheet' => $virheet, 'koira' => $koira,'rodut' => $rodut, 'kasvattajat' => $kasvattajat));
-         //}
-	 //else{
-		$koir->tallenna();
-		Omistajasuhde::tallenna($params['omistaja'], $koir->rekisterinumero);
-		Sukulaissuhde::tallenna($params['ema'], $koir->rekisterinumero, 'ema'); 
-		Sukulaissuhde::tallenna($params['isa'], $koir->rekisterinumero, 'isa');
+        $virheet = $koir->errors();
 
-        	Redirect::to('/koira/' . $koir->rekisterinumero, array('viesti' => 'Koira on lisätty.'));
-		
-  	 //}
+        if (count($virheet) > 0) { //virheitä tiedoissa
+            $rodut = Rotu::haekaikki();
+            $kasvattajat = Kasvattaja::haekaikki();
+            $emat = Koira::haeEmotIsat('N', 0);
+            $isat = Koira::haeEmotIsat('U', 0);
+            View::make('koira/koira_luonti.html', array('virheet' => $virheet, 'koira' => $koira, 'rodut' => $rodut, 'kasvattajat' => $kasvattajat, 'emat' => $emat, 'isat' => $isat));
+        } else { //ok
+            $koir->tallenna();
+            Omistajasuhde::tallenna(self::get_user_logged_in()->tunnus, $koir->rekisterinumero); //luodaan aina ensin vain kirjautuneen nimiin ja muuttaessa voi lisätä muita omistajia
+            Sukulaissuhde::tallenna($params['ema'], $koir->rekisterinumero, 'ema');
+            Sukulaissuhde::tallenna($params['isa'], $koir->rekisterinumero, 'isa');
 
+            Redirect::to('/koira/' . $koir->rekisterinumero, array('viesti' => 'Koira on lisätty.'));
+        }
     }
 
-    
+    public static function naytaMuuta($rekisterinumero) { //nayta editointilomake
+        $koira = Koira::haeTunnuksella($rekisterinumero);
+        $rodut = Rotu::haekaikki();
+        $kasvattajat = Kasvattaja::haekaikki();
+        $omistajat = Omistaja::haekaikki();
+        $emat = Koira::haeEmotIsat('N', $rekisterinumero);
+        $isat = Koira::haeEmotIsat('U', $rekisterinumero);
 
-    public static function naytaMuuta($rekisterinumero){ //nayta editointilomake
-	self::check_logged_in();
-    	$koira = Koira::haeTunnuksella($rekisterinumero);
-	$rodut = Rotu::haekaikki();
-	$kasvattajat = Kasvattaja::haekaikki();
-	$omistajat = Omistaja::haekaikki();
-	$emat=Koira::haeEmotIsa('N');
-	$isat=Koira::haeEmotIsa('U');
-
-    	View::make('koira_muokkaus.html', array('koira' => $koira, 'rodut' => $rodut, 'kasvattajat' => $kasvattajat, 'emat' => $emat, 'isat' => $isat, 'omistajat' => $omistajat));
+        View::make('koira/koira_muokkaus.html', array('koira' => $koira, 'rodut' => $rodut, 'kasvattajat' => $kasvattajat, 'emat' => $emat, 'isat' => $isat, 'omistajat' => $omistajat));
     }
 
+    public static function paivitys($rekisterinumero) { //koiran editointi 
+        $params = $_POST;
 
-    
-   
-    public static function paivitys($rekisterinumero){ //koiran editointi TALLENNA MYÖS OMISTAJASUHDE JA SUKULAISSUHDE
-
-    	$params = $_POST;
-
-    	$koira = array(
-	    'rekisterinumero' => $rekisterinumero,
-	    'rotu' => $params['rotu'],
+        $koira = array(
+            'rekisterinumero' => $rekisterinumero,
+            'rotu' => $params['rotu'],
             'kasvattaja' => $params['kasvattaja'],
             'nimi' => $params['nimi'],
             'syntymapv' => $params['syntymapv'],
             'sukupuoli' => $params['sukupuoli']
-    	);
-    
-	$koir = new Koira($koira);
-    	//$virheet = $koir->errors();
-	//Kint::dump($virheet);
+	            );
 
-    	//if(count($virheet) > 0){
-		//$rodut = Rotu::haekaikki();
-		//$kasvattajat = Kasvattaja::haekaikki();
-		//View::make('koira_muokkaus.html', array('virheet' => $virheet, 'koira' => $koira,'rodut' => $rodut, 'kasvattajat' => $kasvattajat));
-    	//}
-	//else {
-		$koir->paivita();
-		$suhteet = Omistajasuhde::haeSuhteet($rekisterinumero);
-    		$suku = Sukulaissuhde::haeVanhemmat($rekisterinumero);
-   
-    		if($suhteet) { 
-			Omistajasuhde::poista($rekisterinumero); 
-    		}
-    		if($suku) { 
-			Sukulaissuhde::poista($rekisterinumero); 
-    		}
+        $koir = new Koira($koira);
+        $virheet = $koir->errors();
 
-		KoiraController::muutSuhteet($koir->rekisterinumero, $params); 
-      		Redirect::to('/koira/' . $koir->rekisterinumero, array('viesti' => 'Koiran tietoja on muokattu onnistuneesti!'));
-		
-	//}
-      		
-  }
+        if (count($virheet) > 0) { //tiedoissa virheitä
+            $rodut = Rotu::haekaikki();
+            $kasvattajat = Kasvattaja::haekaikki();
+            $omistajat = Omistaja::haekaikki();
+            $emat = Koira::haeEmotIsat('N', $rekisterinumero);
+            $isat = Koira::haeEmotIsat('U', $rekisterinumero);
+            View::make('koira/koira_muokkaus.html', array('virheet' => $virheet, 'koira' => $koira, 'rodut' => $rodut, 'kasvattajat' => $kasvattajat, 'emat' => $emat, 'isat' => $isat, 'omistajat' => $omistajat));
+        } else { //ok
+            $koir->paivita();
+            $suhteet = Omistajasuhde::haeSuhteet($rekisterinumero);
+            $suku = Sukulaissuhde::haeVanhemmat($rekisterinumero);
 
-   public static function muutSuhteet($rekisterinumero, $params) {
+            if ($suhteet) {
+                Omistajasuhde::poista($rekisterinumero); //poistetaan vanhat suhteet
+            }
+            if ($suku) {
+                Sukulaissuhde::poista($rekisterinumero); //poistetaan vanhat suhteet
+            }
 
-	$omistajat=$params['omistajat'];
-
-	foreach($omistajat as $omist){
- 	 	Omistajasuhde::tallenna($omist, $rekisterinumero); 
-			
-	}
-	
-	Sukulaissuhde::tallenna($params['ema'], $rekisterinumero, 'ema'); 
-	Sukulaissuhde::tallenna($params['isa'], $rekisterinumero, 'isa');
-	
-
-    }
-   
-
-
-  public static function poisto($rekisterinumero){ //koiran poisto
-    
-    //self::check_logged_in();
-    $koira = new Koira(array('rekisterinumero' => $rekisterinumero));
-
-    $suhteet = Omistajasuhde::haeSuhteet($rekisterinumero);
-    $suku = Sukulaissuhde::haeVanhemmat($rekisterinumero);
-    $tulokset = KoeNayttelyTulos::haeTulokset($rekisterinumero);
-
-    if($suhteet) { 
-	Omistajasuhde::poista($rekisterinumero); 
-    }
-    if($suku) { 
-	Sukulaissuhde::poista($rekisterinumero); 
-    }
-    if($tulokset) { 
-	KoeNayttelyTulos::poista($rekisterinumero); 
+            KoiraController::muutSuhteet($koir->rekisterinumero, $params); //luo uudet suhteet
+            Redirect::to('/koira/' . $koir->rekisterinumero, array('viesti' => 'Koiran tietoja on muokattu onnistuneesti!'));
+        }
     }
 
-    Kint::dump($koira);
+    public static function muutSuhteet($rekisterinumero, $params) {
 
-    $koira->poista();
+        $omistajat = $params['omistajat'];
 
-    Redirect::to('/koira', array('viesti' => 'Koira on poistettu onnistuneesti!'));
-  }
+        foreach ($omistajat as $omist) { //päivitettäessä voi olla monta omistajaa
+            Omistajasuhde::tallenna($omist, $rekisterinumero);
+        }
 
-  public static function hyvaksy($rekisterinumero) { //koiran hyväksyntä
-
-        $koira = array(
-            'rekisterinumero' => $rekisterinumero,
-	     'tila' => 'valmis'
-	    
-        );
-        
-	$koir = new Koira($koira);
-  	//$virheet = $koir->errors();
-	//Kint::dump($virheet);
-
-	 //if(count($virheet) > 0){
-		//$rodut = Rotu::haekaikki();
-		//$kasvattajat = Kasvattaja::haekaikki();
-    		//View::make('koira_luonti.html', array('virheet' => $virheet, 'koira' => $koira,'rodut' => $rodut, 'kasvattajat' => $kasvattajat));
-         //}
-	 //else{
-		$koir->hyvaksyHylkaa();
-        	Redirect::to('/koira', array('viesti' => 'Koira on hyväksytty.'));
-		
-  	 //}
-
+        Sukulaissuhde::tallenna($params['ema'], $rekisterinumero, 'ema');
+        Sukulaissuhde::tallenna($params['isa'], $rekisterinumero, 'isa');
     }
 
-   public static function hylkaa($rekisterinumero) { //koiran hylkäys
+    public static function poisto($rekisterinumero) { //koiran poisto
+        $koira = new Koira(array('rekisterinumero' => $rekisterinumero));
 
-         $koira = array(
-            'rekisterinumero' => $rekisterinumero,
-	     'tila' => 'hylatty'
-	    
-        );
-        
-	$koir = new Koira($koira);
-  	//$virheet = $koir->errors();
-	//Kint::dump($virheet);
+        $suhteet = Omistajasuhde::haeSuhteet($rekisterinumero);
+        $suku = Sukulaissuhde::haeVanhemmat($rekisterinumero);
+        $tulokset = KoeNayttelyTulos::haeTulokset($rekisterinumero);
 
-	 //if(count($virheet) > 0){
-		//$rodut = Rotu::haekaikki();
-		//$kasvattajat = Kasvattaja::haekaikki();
-    		//View::make('koira_luonti.html', array('virheet' => $virheet, 'koira' => $koira,'rodut' => $rodut, 'kasvattajat' => $kasvattajat));
-         //}
-	 //else{
-		$koir->hyvaksyHylkaa();
-        	Redirect::to('/koira', array('viesti' => 'Koira on hylätty.'));
-		
-  	 //}
+        if ($suhteet) {
+            Omistajasuhde::poista($rekisterinumero);  //poistetaan muut suhteet ensin
+        }
+        if ($suku) {
+            Sukulaissuhde::poista($rekisterinumero);
+        }
+        if ($tulokset) {
+            KoeNayttelyTulos::poista($rekisterinumero);
+        }
 
+
+        $koira->poista(); //ja sitten koira
+
+        Redirect::to('/koira', array('viesti' => 'Koira on poistettu onnistuneesti!'));
     }
 
-   
+    public static function hyvaksy($rekisterinumero) { //koiran hyväksyntä
+        $tila = 'valmis';
+        Koira::hyvaksyHylkaa($rekisterinumero, $tila);
+        Redirect::to('/koira', array('viesti' => 'Koira on hyväksytty.'));
+    }
+
+    public static function hylkaa($rekisterinumero) { //koiran hylkäys
+        $tila = 'hylatty';
+        Koira::hyvaksyHylkaa($rekisterinumero, $tila);
+        Redirect::to('/koira', array('viesti' => 'Koira on hylätty.'));
+    }
 
 }

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="alert alert-success">
+  {{viesti}}
+</div>
+
+{% if virheet %}
+    <div class="alert alert-danger">
+      <ul>
+        {% for virhe in virheet %}
+          <li>{{virhe}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+
+ <h2>{{kayttaja.nimi}}</h2>
+
+   <p>
+    <form method="post" action="{{base_path}}/kayttaja/{{kayttaja.tunnus}}/poista" style="display: inline-block;" 
+class="destroy-form" data-confirm="Oletko varma, ett&auml; haluat poistaa k&auml;ytt&auml;j&auml;n?"><button type="submit" class="btn btn-danger">Poista</button></form>
+    <a class="btn btn-default btn-sm" href="{{base_path}}/kayttaja/{{kayttaja.tunnus}}/muokkaa">Muokkaa</a>  
+   </p>
+
+
+  <!-- Tiedot tulee listana tähän -->
+<h3> K&auml;ytt&auml;j&auml;n tiedot:</h3>
+  <ul>
+    <li><strong>Tunnus: </strong> {{kayttaja.tunnus}}</li>
+    <li><strong>Rooli:</strong> {{kayttaja.rooli}}</li>
+    <li><strong>K&auml;ytt&auml;j&auml;tunnus: </strong> {{kayttaja.kayttajatunnus}}</li>
+    <li><strong>Salasana: </strong> {{kayttaja.salasana}}</li>
+    <li><strong>Osoite: </strong> {{kayttaja.osoite}}</li>
+    <li><strong>Tilin loppumisp&auml;iv&auml;: </strong> {{kayttaja.loppupv}}</li>
+
+   {% if kayttaja.rooli=="omistaja" %}
+    <li><strong>Yhteystietojen n&auml;ytto: </strong> {% if omistaja.yhteystietojenNaytto==true%} Kyll&auml;  {% else %} Ei  {% endif %}</li>
+    <li><strong>Omistajatietojen n&auml;ytto: </strong> {% if omistaja.omistajatietojenNaytto==true%} Kyll&auml;  {% else %} Ei  {% endif %} </li>
+    {% endif %}
+  </ul>
+  
+
+{% endblock %}

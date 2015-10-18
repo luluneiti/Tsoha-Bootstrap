@@ -29,4 +29,26 @@ class Kasvattaja extends BaseModel {
         return $kasvattaja;
     }
 
+    public static function haeTunnuksella($tunnus) { //kasvattajan haku tunnuksella
+        $kysely = DB::connection()->prepare('SELECT * FROM Kasvattaja where kasvattajatunnus=:tunnus');
+        $kysely->execute(array('tunnus' => $tunnus));
+        $rivi = $kysely->fetch();
+
+        if ($rivi) {
+           $kasvattaja = new Kasvattaja(array(
+                'kasvattajatunnus' => $rivi['kasvattajatunnus'],
+                'tunnus' => $rivi['tunnus'],
+                'knimi' => $rivi['nimi'],
+                'paikkakunta' => $rivi['paikkakunta'],
+            ));
+
+
+            return $kasvattaja;
+        }
+
+        return null;
+    }
+  
+
+
 }

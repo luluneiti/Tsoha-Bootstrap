@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="alert alert-success">
+    {{viesti}}
+</div>
+
+
+{% if virheet %}
+<div class="alert alert-danger">
+    <ul>
+        {% for virhe in virheet %}
+        <li>{{virhe}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+
+<h2>Haetut koirat</h2>
+
+
+
+<table class="table table-striped table-bordered">
+    <thead>
+
+        <tr>
+            <th>Rekisterinumero</th>
+            <th>Nimi</th>
+            {% if user_logged_in.rooli=="omistaja" %}
+            <th>Rotu</th>
+            {% endif %}
+            <th>Sukupuoli</th>
+            <th>Syntym&auml;p&auml;iv&auml;</th>
+            <th>Rekister&ouml;intip&auml;iv&auml;</th>
+            <th>Rekister&ouml;innin tila</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        {% for koira in koirat %}
+        <tr>
+            <td>{{koira.rekisterinumero}}</td>
+            <td><a href="{{base_path}}/koira/{{koira.rekisterinumero}}">{{koira.nimi}}</td>
+            {% if user_logged_in.rooli=="omistaja" %}
+            <td>{{koira.rotu}}</td>{% endif %}
+            <td>
+                {% if koira.sukupuoli=="N" %}
+                Narttu
+                {% else %}
+                Uros
+                {% endif %}
+            </td>
+            <td>{{koira.syntymapv}}</td>
+            <td>{{koira.rekisterointipv}}</td>
+            <td>
+                {% if koira.tila=="valmis" %}
+                <label class="label label-success">Valmis
+                {% elseif koira.tila=="hylatty" %}
+                 <label class="label label-danger">Hyl&auml;tty
+                {% else %}
+                <label class="label label-default">Kesken
+                 {% endif %}
+              </td>
+                           
+
+           </tr>
+
+   	{% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

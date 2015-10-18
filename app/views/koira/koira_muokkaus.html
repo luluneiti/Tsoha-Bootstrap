@@ -24,7 +24,7 @@
 
         <div class="form-group">
             <label>Nimi</label>
-            <input name="nimi" class="form-control" type="text" value="{{koira.nimi}}">
+            <input name="nimi" class="form-control" type="text" value="{{koira.nimi}}" required>
         </div>
 
         <div class="form-group">
@@ -40,7 +40,7 @@
 
         <div class="form-group">
             <label>Syntym&auml;p&auml;iv&auml;</label>
-            <input name="syntymapv" class="form-control" type="text" value="{{koira.syntymapv}}">
+            <input name="syntymapv" class="form-control" type="text" value="{{koira.syntymapv}}" required>
         </div>
 
         <div class="form-group">
@@ -63,7 +63,7 @@
 
         <div class="form-group">
             <label>Omistaja(t)</label>
-            <select class="form-control" name="omistajat[]" multiple="">
+            <select class="form-control" name="omistajat[]" multiple="" required>
                 {% for omistaja in omistajat %}
                 <option value="{{omistaja.tunnus}}" >{{omistaja.nimi}}</option>
                 {% endfor %}
@@ -74,7 +74,7 @@
 
         <div class="form-group">
             <label>Em&auml</label>
-            <select class="form-control" name="ema">
+            <select class="form-control" name="ema" required>
                 {% for ema in emat %}
                 <option value="{{ema.rekisterinumero}}" >{{ema.nimi}}</option>
                 {% endfor %}
@@ -83,7 +83,7 @@
 
         <div class="form-group">
             <label>Is&auml</label>
-            <select class="form-control" name="isa">
+            <select class="form-control" name="isa" required>
                 {% for isa in isat %}
                 <option value="{{isa.rekisterinumero}}" >{{isa.nimi}}</option>
                 {% endfor %}

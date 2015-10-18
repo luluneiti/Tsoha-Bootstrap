@@ -14,15 +14,30 @@
             'rotu' => 1, 
             'kasvattaja' => 1,
             'nimi' => 'joo',
-            'syntymapv' => '88.99.2015',
+            'syntymapv' => '12.1.2014',
             'sukupuoli' => 'N',
-            'rekisterointipv' => '2015-09-18', 
+            'rekisterointipv' => '2015-9-1', 
             'tila' => 'kesken'
         ));
 
   	$errors = $doom->errors();
 
   	Kint::dump($errors);
+
+	$doom2 = new Kayttaja(array(
+            'nimi' => 'n', 
+            'osoite' => 'o',
+            'kayttajatunnus' => 'joo',
+            'salasana' => '',
+            'rooli' => 'omistaja',
+            'luontipv' => '2015-9-18', 
+            'alkupv' => '2015-9-18'
+        ));
+
+  	$errors = $doom2->errors();
+
+  	Kint::dump($errors);
+
         
     }
 
